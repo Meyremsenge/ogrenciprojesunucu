@@ -1,0 +1,768 @@
+/**
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * 🎨 DESIGN TOKENS - Öğrenci Koçluk Sistemi
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * 
+ * Bu dosya uygulamanın tüm design token'larını içerir.
+ * - Renk Paleti (Color Palette)
+ * - Tipografi (Typography)
+ * - Spacing & Sizing
+ * - Shadows & Effects
+ * - Animations & Transitions
+ * - Breakpoints
+ * 
+ * ═══════════════════════════════════════════════════════════════════════════════
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   📐 ROOT DESIGN TOKENS
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ─────────────────────────────────────────────────────────────────────────────
+     🎨 COLOR PALETTE - Primary Colors
+     ───────────────────────────────────────────────────────────────────────────── */
+  
+  /* Primary Blue - Ana marka rengi */
+  --color-primary-50: 239 246 255;
+  --color-primary-100: 219 234 254;
+  --color-primary-200: 191 219 254;
+  --color-primary-300: 147 197 253;
+  --color-primary-400: 96 165 250;
+  --color-primary-500: 59 130 246;
+  --color-primary-600: 37 99 235;
+  --color-primary-700: 29 78 216;
+  --color-primary-800: 30 64 175;
+  --color-primary-900: 30 58 138;
+  --color-primary-950: 23 37 84;
+
+  /* Secondary - İkincil vurgular için */
+  --color-secondary-50: 248 250 252;
+  --color-secondary-100: 241 245 249;
+  --color-secondary-200: 226 232 240;
+  --color-secondary-300: 203 213 225;
+  --color-secondary-400: 148 163 184;
+  --color-secondary-500: 100 116 139;
+  --color-secondary-600: 71 85 105;
+  --color-secondary-700: 51 65 85;
+  --color-secondary-800: 30 41 59;
+  --color-secondary-900: 15 23 42;
+  --color-secondary-950: 2 6 23;
+
+  /* ─────────────────────────────────────────────────────────────────────────────
+     🎨 SEMANTIC COLORS
+     ───────────────────────────────────────────────────────────────────────────── */
+
+  /* Success - Başarı durumları */
+  --color-success-50: 240 253 244;
+  --color-success-100: 220 252 231;
+  --color-success-200: 187 247 208;
+  --color-success-300: 134 239 172;
+  --color-success-400: 74 222 128;
+  --color-success-500: 34 197 94;
+  --color-success-600: 22 163 74;
+  --color-success-700: 21 128 61;
+  --color-success-800: 22 101 52;
+  --color-success-900: 20 83 45;
+  --color-success-950: 5 46 22;
+
+  /* Warning - Uyarı durumları */
+  --color-warning-50: 255 251 235;
+  --color-warning-100: 254 243 199;
+  --color-warning-200: 253 230 138;
+  --color-warning-300: 252 211 77;
+  --color-warning-400: 251 191 36;
+  --color-warning-500: 245 158 11;
+  --color-warning-600: 217 119 6;
+  --color-warning-700: 180 83 9;
+  --color-warning-800: 146 64 14;
+  --color-warning-900: 120 53 15;
+  --color-warning-950: 69 26 3;
+
+  /* Error/Danger - Hata durumları */
+  --color-error-50: 254 242 242;
+  --color-error-100: 254 226 226;
+  --color-error-200: 254 202 202;
+  --color-error-300: 252 165 165;
+  --color-error-400: 248 113 113;
+  --color-error-500: 239 68 68;
+  --color-error-600: 220 38 38;
+  --color-error-700: 185 28 28;
+  --color-error-800: 153 27 27;
+  --color-error-900: 127 29 29;
+  --color-error-950: 69 10 10;
+
+  /* Info - Bilgi durumları */
+  --color-info-50: 240 249 255;
+  --color-info-100: 224 242 254;
+  --color-info-200: 186 230 253;
+  --color-info-300: 125 211 252;
+  --color-info-400: 56 189 248;
+  --color-info-500: 14 165 233;
+  --color-info-600: 2 132 199;
+  --color-info-700: 3 105 161;
+  --color-info-800: 7 89 133;
+  --color-info-900: 12 74 110;
+  --color-info-950: 8 47 73;
+
+  /* ─────────────────────────────────────────────────────────────────────────────
+     👤 ROLE COLORS - Kullanıcı Rolleri
+     ───────────────────────────────────────────────────────────────────────────── */
+
+  /* Student - Öğrenci */
+  --color-student-light: 219 234 254;
+  --color-student: 59 130 246;
+  --color-student-dark: 29 78 216;
+
+  /* Teacher - Öğretmen */
+  --color-teacher-light: 220 252 231;
+  --color-teacher: 34 197 94;
+  --color-teacher-dark: 21 128 61;
+
+  /* Admin - Yönetici */
+  --color-admin-light: 243 232 255;
+  --color-admin: 139 92 246;
+  --color-admin-dark: 109 40 217;
+
+  /* SuperAdmin - Süper Yönetici */
+  --color-superadmin-light: 254 226 226;
+  --color-superadmin: 239 68 68;
+  --color-superadmin-dark: 185 28 28;
+
+  /* ─────────────────────────────────────────────────────────────────────────────
+     🔤 TYPOGRAPHY - Font Sistemi
+     ───────────────────────────────────────────────────────────────────────────── */
+
+  /* Font Families */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Fira Code', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+  --font-display: 'Inter', var(--font-sans);
+
+  /* Font Sizes - Fluid Scale */
+  --text-xs: 0.75rem;      /* 12px */
+  --text-sm: 0.875rem;     /* 14px */
+  --text-base: 1rem;       /* 16px */
+  --text-lg: 1.125rem;     /* 18px */
+  --text-xl: 1.25rem;      /* 20px */
+  --text-2xl: 1.5rem;      /* 24px */
+  --text-3xl: 1.875rem;    /* 30px */
+  --text-4xl: 2.25rem;     /* 36px */
+  --text-5xl: 3rem;        /* 48px */
+  --text-6xl: 3.75rem;     /* 60px */
+
+  /* Line Heights */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+
+  /* Font Weights */
+  --font-thin: 100;
+  --font-extralight: 200;
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+  --font-black: 900;
+
+  /* Letter Spacing */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+
+  /* ─────────────────────────────────────────────────────────────────────────────
+     📏 SPACING SCALE
+     ───────────────────────────────────────────────────────────────────────────── */
+
+  --space-0: 0;
+  --space-px: 1px;
+  --space-0-5: 0.125rem;   /* 2px */
+  --space-1: 0.25rem;      /* 4px */
+  --space-1-5: 0.375rem;   /* 6px */
+  --space-2: 0.5rem;       /* 8px */
+  --space-2-5: 0.625rem;   /* 10px */
+  --space-3: 0.75rem;      /* 12px */
+  --space-3-5: 0.875rem;   /* 14px */
+  --space-4: 1rem;         /* 16px */
+  --space-5: 1.25rem;      /* 20px */
+  --space-6: 1.5rem;       /* 24px */
+  --space-7: 1.75rem;      /* 28px */
+  --space-8: 2rem;         /* 32px */
+  --space-9: 2.25rem;      /* 36px */
+  --space-10: 2.5rem;      /* 40px */
+  --space-11: 2.75rem;     /* 44px */
+  --space-12: 3rem;        /* 48px */
+  --space-14: 3.5rem;      /* 56px */
+  --space-16: 4rem;        /* 64px */
+  --space-20: 5rem;        /* 80px */
+  --space-24: 6rem;        /* 96px */
+  --space-28: 7rem;        /* 112px */
+  --space-32: 8rem;        /* 128px */
+  --space-36: 9rem;        /* 144px */
+  --space-40: 10rem;       /* 160px */
+
+  /* ─────────────────────────────────────────────────────────────────────────────
+     🔲 SIZING
+     ───────────────────────────────────────────────────────────────────────────── */
+
+  /* Component Heights */
+  --height-input-sm: 2rem;       /* 32px */
+  --height-input: 2.5rem;        /* 40px */
+  --height-input-lg: 2.75rem;    /* 44px */
+  --height-input-xl: 3rem;       /* 48px */
+
+  /* Icon Sizes */
+  --icon-xs: 0.75rem;     /* 12px */
+  --icon-sm: 1rem;        /* 16px */
+  --icon-md: 1.25rem;     /* 20px */
+  --icon-lg: 1.5rem;      /* 24px */
+  --icon-xl: 2rem;        /* 32px */
+  --icon-2xl: 2.5rem;     /* 40px */
+
+  /* Avatar Sizes */
+  --avatar-xs: 1.5rem;    /* 24px */
+  --avatar-sm: 2rem;      /* 32px */
+  --avatar-md: 2.5rem;    /* 40px */
+  --avatar-lg: 3rem;      /* 48px */
+  --avatar-xl: 4rem;      /* 64px */
+  --avatar-2xl: 5rem;     /* 80px */
+
+  /* ─────────────────────────────────────────────────────────────────────────────
+     🔳 BORDER RADIUS
+     ───────────────────────────────────────────────────────────────────────────── */
+
+  --radius-none: 0;
+  --radius-sm: 0.125rem;     /* 2px */
+  --radius-default: 0.25rem; /* 4px */
+  --radius-md: 0.375rem;     /* 6px */
+  --radius-lg: 0.5rem;       /* 8px */
+  --radius-xl: 0.75rem;      /* 12px */
+  --radius-2xl: 1rem;        /* 16px */
+  --radius-3xl: 1.5rem;      /* 24px */
+  --radius-full: 9999px;
+
+  /* ─────────────────────────────────────────────────────────────────────────────
+     🌑 SHADOWS
+     ───────────────────────────────────────────────────────────────────────────── */
+
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  --shadow-none: 0 0 #0000;
+
+  /* Colored Shadows */
+  --shadow-primary: 0 4px 14px 0 rgb(59 130 246 / 0.4);
+  --shadow-success: 0 4px 14px 0 rgb(34 197 94 / 0.4);
+  --shadow-warning: 0 4px 14px 0 rgb(245 158 11 / 0.4);
+  --shadow-error: 0 4px 14px 0 rgb(239 68 68 / 0.4);
+
+  /* ─────────────────────────────────────────────────────────────────────────────
+     ⚡ TRANSITIONS & ANIMATIONS
+     ───────────────────────────────────────────────────────────────────────────── */
+
+  /* Durations */
+  --duration-75: 75ms;
+  --duration-100: 100ms;
+  --duration-150: 150ms;
+  --duration-200: 200ms;
+  --duration-300: 300ms;
+  --duration-500: 500ms;
+  --duration-700: 700ms;
+  --duration-1000: 1000ms;
+
+  /* Easing Functions */
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* ─────────────────────────────────────────────────────────────────────────────
+     📱 Z-INDEX SCALE
+     ───────────────────────────────────────────────────────────────────────────── */
+
+  --z-0: 0;
+  --z-10: 10;
+  --z-20: 20;
+  --z-30: 30;
+  --z-40: 40;
+  --z-50: 50;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+  --z-popover: 600;
+  --z-tooltip: 700;
+  --z-toast: 800;
+
+  /* ─────────────────────────────────────────────────────────────────────────────
+     📐 CONTAINER & LAYOUT
+     ───────────────────────────────────────────────────────────────────────────── */
+
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1400px;
+
+  /* Sidebar Width */
+  --sidebar-width: 280px;
+  --sidebar-collapsed-width: 80px;
+
+  /* Header Height */
+  --header-height: 64px;
+  --header-height-mobile: 56px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   🌙 DARK MODE TOKENS
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+.dark {
+  /* Dark mode için shadow ayarlamaları */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.3), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.5);
+
+  /* Colored Shadows - Dark Mode */
+  --shadow-primary: 0 4px 14px 0 rgb(59 130 246 / 0.25);
+  --shadow-success: 0 4px 14px 0 rgb(34 197 94 / 0.25);
+  --shadow-warning: 0 4px 14px 0 rgb(245 158 11 / 0.25);
+  --shadow-error: 0 4px 14px 0 rgb(239 68 68 / 0.25);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   🎭 UTILITY CLASSES
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* Focus Ring Utility */
+.focus-ring {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Gradient Backgrounds */
+.gradient-primary {
+  background: linear-gradient(135deg, 
+    rgb(var(--color-primary-500)) 0%, 
+    rgb(var(--color-primary-600)) 100%
+  );
+}
+
+.gradient-success {
+  background: linear-gradient(135deg, 
+    rgb(var(--color-success-500)) 0%, 
+    rgb(var(--color-success-600)) 100%
+  );
+}
+
+.gradient-warning {
+  background: linear-gradient(135deg, 
+    rgb(var(--color-warning-500)) 0%, 
+    rgb(var(--color-warning-600)) 100%
+  );
+}
+
+.gradient-error {
+  background: linear-gradient(135deg, 
+    rgb(var(--color-error-500)) 0%, 
+    rgb(var(--color-error-600)) 100%
+  );
+}
+
+/* Role Color Backgrounds */
+.bg-role-student {
+  background-color: rgb(var(--color-student-light));
+}
+
+.bg-role-teacher {
+  background-color: rgb(var(--color-teacher-light));
+}
+
+.bg-role-admin {
+  background-color: rgb(var(--color-admin-light));
+}
+
+.bg-role-superadmin {
+  background-color: rgb(var(--color-superadmin-light));
+}
+
+/* Role Color Text */
+.text-role-student {
+  color: rgb(var(--color-student));
+}
+
+.text-role-teacher {
+  color: rgb(var(--color-teacher));
+}
+
+.text-role-admin {
+  color: rgb(var(--color-admin));
+}
+
+.text-role-superadmin {
+  color: rgb(var(--color-superadmin));
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   📐 RESPONSIVE TYPOGRAPHY
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* Responsive Heading Classes */
+.heading-display {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: var(--font-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+.heading-1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: var(--font-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+.heading-2 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-snug);
+}
+
+.heading-3 {
+  font-size: clamp(1.25rem, 2.5vw, 1.875rem);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-snug);
+}
+
+.heading-4 {
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-normal);
+}
+
+.heading-5 {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-normal);
+}
+
+.heading-6 {
+  font-size: clamp(0.875rem, 1.25vw, 1.125rem);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-normal);
+}
+
+/* Body Text Classes */
+.body-lg {
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+}
+
+.body-base {
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+}
+
+.body-sm {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.body-xs {
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+}
+
+/* Caption & Helper Text */
+.caption {
+  font-size: var(--text-xs);
+  color: hsl(var(--muted-foreground));
+  line-height: var(--leading-normal);
+}
+
+.helper-text {
+  font-size: var(--text-sm);
+  color: hsl(var(--muted-foreground));
+  line-height: var(--leading-relaxed);
+}
+
+/* Label Text */
+.label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-none);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   🔳 COMPONENT TOKENS
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* Card Variants */
+.card-elevated {
+  box-shadow: var(--shadow-md);
+  transition: box-shadow var(--duration-200) var(--ease-out);
+}
+
+.card-elevated:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.card-outlined {
+  border: 1px solid hsl(var(--border));
+  box-shadow: none;
+}
+
+.card-filled {
+  background-color: hsl(var(--muted));
+  border: none;
+  box-shadow: none;
+}
+
+/* Interactive Card */
+.card-interactive {
+  cursor: pointer;
+  transition: all var(--duration-200) var(--ease-out);
+}
+
+.card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-interactive:active {
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   📱 RESPONSIVE HELPERS
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* Hide on mobile */
+@media (max-width: 639px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+/* Hide on tablet and up */
+@media (min-width: 640px) {
+  .hide-tablet-up {
+    display: none !important;
+  }
+}
+
+/* Hide on desktop */
+@media (min-width: 1024px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}
+
+/* Show only on mobile */
+@media (min-width: 640px) {
+  .show-mobile-only {
+    display: none !important;
+  }
+}
+
+/* Container with responsive padding */
+.container-responsive {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .container-responsive {
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-responsive {
+    padding-left: var(--space-8);
+    padding-right: var(--space-8);
+  }
+}
+
+/* Page Layout */
+.page-container {
+  min-height: calc(100vh - var(--header-height));
+  padding: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .page-container {
+    padding: var(--space-8);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   ✨ ANIMATIONS
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* Fade animations */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Slide animations */
+@keyframes slide-in-up {
+  from { 
+    opacity: 0; 
+    transform: translateY(10px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes slide-in-down {
+  from { 
+    opacity: 0; 
+    transform: translateY(-10px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes slide-in-left {
+  from { 
+    opacity: 0; 
+    transform: translateX(-10px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0); 
+  }
+}
+
+@keyframes slide-in-right {
+  from { 
+    opacity: 0; 
+    transform: translateX(10px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0); 
+  }
+}
+
+/* Scale animations */
+@keyframes scale-in {
+  from { 
+    opacity: 0; 
+    transform: scale(0.95); 
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+}
+
+@keyframes scale-out {
+  from { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+  to { 
+    opacity: 0; 
+    transform: scale(0.95); 
+  }
+}
+
+/* Bounce animation */
+@keyframes bounce-in {
+  0% { 
+    opacity: 0; 
+    transform: scale(0.3); 
+  }
+  50% { 
+    transform: scale(1.05); 
+  }
+  70% { 
+    transform: scale(0.9); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+}
+
+/* Pulse animation */
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 hsl(var(--primary) / 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px hsl(var(--primary) / 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 hsl(var(--primary) / 0);
+  }
+}
+
+/* Spinner animation */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Animation utility classes */
+.animate-fade-in {
+  animation: fade-in var(--duration-200) var(--ease-out);
+}
+
+.animate-slide-in-up {
+  animation: slide-in-up var(--duration-300) var(--ease-out);
+}
+
+.animate-slide-in-down {
+  animation: slide-in-down var(--duration-300) var(--ease-out);
+}
+
+.animate-scale-in {
+  animation: scale-in var(--duration-200) var(--ease-out);
+}
+
+.animate-bounce-in {
+  animation: bounce-in var(--duration-500) var(--ease-spring);
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s infinite;
+}

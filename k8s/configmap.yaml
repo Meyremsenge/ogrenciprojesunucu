@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: ogrenci-sistemi
+  labels:
+    app: ogrenci-sistemi
+data:
+  # Flask Application
+  FLASK_ENV: "production"
+  
+  # Application Settings
+  APP_NAME: "Öğrenci Sistemi"
+  DEFAULT_LOCALE: "tr"
+  TIMEZONE: "Europe/Istanbul"
+  
+  # Server Settings
+  API_HOST: "0.0.0.0"
+  API_PORT: "8000"
+  
+  # Database Settings (non-sensitive)
+  DATABASE_POOL_SIZE: "10"
+  DATABASE_POOL_OVERFLOW: "20"
+  DATABASE_POOL_TIMEOUT: "30"
+  DATABASE_POOL_RECYCLE: "1800"
+  
+  # Redis Settings (non-sensitive)
+  REDIS_DB: "0"
+  CACHE_DEFAULT_TIMEOUT: "300"
+  
+  # Celery Settings
+  CELERY_CONCURRENCY: "4"
+  CELERY_PREFETCH_MULTIPLIER: "4"
+  CELERY_MAX_TASKS_PER_CHILD: "1000"
+  
+  # Gunicorn Settings
+  GUNICORN_WORKERS: "4"
+  GUNICORN_WORKER_CLASS: "gevent"
+  GUNICORN_WORKER_CONNECTIONS: "1000"
+  GUNICORN_TIMEOUT: "120"
+  GUNICORN_KEEPALIVE: "5"
+  
+  # JWT Settings
+  JWT_ACCESS_TOKEN_EXPIRES: "3600"
+  JWT_REFRESH_TOKEN_EXPIRES: "604800"
+  
+  # CORS Settings
+  CORS_ORIGINS: "https://ogrenci-sistemi.com,https://www.ogrenci-sistemi.com"
+  
+  # Rate Limiting
+  RATE_LIMIT_DEFAULT: "100/minute"
+  RATE_LIMIT_AUTH: "20/minute"
+  
+  # Logging
+  LOG_LEVEL: "INFO"
+  
+  # Feature Flags
+  FEATURE_YOUTUBE_INTEGRATION: "true"
+  FEATURE_LIVE_SESSIONS: "true"
+  FEATURE_AI_CHAT: "true"

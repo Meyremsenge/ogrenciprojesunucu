@@ -1,0 +1,1 @@
+import{a}from"./api-Tqb-OO70.js";async function r(t){return(await a.get("/exams",{params:t})).data}async function o(t){return(await a.get("/exams/my-attempts")).data.data.attempts}export{o as a,r as g};

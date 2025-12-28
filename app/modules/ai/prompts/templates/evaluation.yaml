@@ -1,0 +1,74 @@
+# =============================================================================
+# ANSWER EVALUATION PROMPT TEMPLATE
+# Öğrenci cevaplarını değerlendirir (Sadece öğretmenler için)
+# =============================================================================
+
+name: answer_evaluation
+version: "1.0.0"
+description: "Öğrenci cevaplarını değerlendirir ve geri bildirim sağlar"
+
+roles:
+  - teacher
+  - admin
+
+required_variables:
+  - question
+  - student_answer
+
+optional_variables:
+  - correct_answer
+  - grading_criteria
+  - max_points
+  - subject
+  - topic
+  - student_level
+
+max_tokens: 600
+
+cache:
+  enabled: false  # Değerlendirmeler cache'lenmez
+
+system_prompt: |
+  Sen deneyimli bir eğitimcisin. Öğrenci cevaplarını objektif ve yapıcı bir şekilde değerlendiriyorsun.
+  
+  KRİTİK KURALLAR:
+  - Objektif ve adil değerlendir
+  - Yapıcı geri bildirim ver
+  - Güçlü ve zayıf yönleri belirt
+  - İyileştirme önerileri sun
+  - Cesaretlendirici ol ama gerçekçi kal
+  - Türkçe yanıt ver
+  - Detaylı açıklama yap
+
+user_prompt: |
+  Aşağıdaki öğrenci cevabını değerlendir:
+  
+  SORU:
+  {question}
+  
+  ÖĞRENCİ CEVABI:
+  {student_answer}
+  
+  {% if correct_answer %}DOĞRU CEVAP: {correct_answer}{% endif %}
+  {% if grading_criteria %}DEĞERLENDİRME KRİTERLERİ: {grading_criteria}{% endif %}
+  {% if max_points %}MAKSİMUM PUAN: {max_points}{% endif %}
+  {% if subject %}DERS: {subject}{% endif %}
+  {% if topic %}KONU: {topic}{% endif %}
+  
+  Değerlendirmeyi şu formatta yap:
+  1. PUAN: X / {max_points|default("100")}
+  2. DOĞRU YÖNLER: ...
+  3. EKSİK/HATALI YÖNLER: ...
+  4. İYİLEŞTİRME ÖNERİLERİ: ...
+  5. GENEL DEĞERLENDİRME: ...
+
+validation:
+  question:
+    min_length: 10
+    max_length: 2000
+  student_answer:
+    min_length: 1
+    max_length: 5000
+  max_points:
+    min_value: 1
+    max_value: 1000

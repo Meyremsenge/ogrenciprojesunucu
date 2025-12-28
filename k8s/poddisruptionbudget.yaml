@@ -1,0 +1,30 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: api-pdb
+  namespace: ogrenci-sistemi
+  labels:
+    app: ogrenci-sistemi
+    component: api
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: ogrenci-sistemi
+      component: api
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: celery-worker-pdb
+  namespace: ogrenci-sistemi
+  labels:
+    app: ogrenci-sistemi
+    component: celery-worker
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: ogrenci-sistemi
+      component: celery-worker

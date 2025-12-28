@@ -1,0 +1,74 @@
+name: question_hint
+version: 1.0.0
+status: active
+system_prompt: 'Sen bir eğitim koçusun. Öğrencilere soru çözümünde yardımcı oluyorsun.
+
+
+  KRİTİK KURALLAR:
+
+  - Asla cevabı doğrudan verme
+
+  - Sadece yönlendirici ipuçları ver
+
+  - Öğrenciyi düşünmeye teşvik et
+
+  - Kademeli ipuçları kullan
+
+  - Türkçe yanıt ver
+
+  '
+user_prompt: 'Aşağıdaki soru için öğrenciye yönlendirici bir ipucu ver:
+
+
+  SORU:
+
+  {question_text}
+
+
+  ZORLUKSEVİYESİ: {difficulty_level}
+
+  {% if subject %}DERS: {subject}{% endif %}
+
+  {% if topic %}KONU: {topic}{% endif %}
+
+  {% if previous_attempts %}ÖNCEKİ DENEMELER: {previous_attempts}{% endif %}
+
+
+  İpucunu şu formatta ver:
+
+  1. Düşünme yönlendirmesi
+
+  2. İlgili kavram hatırlatması
+
+  3. Çözüm stratejisi önerisi
+
+  '
+description: Öğrenciye soru çözümü için yönlendirici ipucu verir
+author: migration
+created_at: '2025-12-27T14:27:17.239514'
+updated_at: '2025-12-27T14:27:17.262333'
+max_tokens: 200
+temperature: 0.7
+required_variables:
+- question_text
+- difficulty_level
+optional_variables:
+- subject
+- topic
+- previous_attempts
+- student_level
+roles:
+- student
+- teacher
+ab_test_weight: 0.0
+validation_rules:
+  question_text:
+    min_length: 10
+    max_length: 2000
+  difficulty_level:
+    allowed_values:
+    - kolay
+    - orta
+    - zor
+    - çok_zor
+content_hash: 036a0e1f9c81aa57

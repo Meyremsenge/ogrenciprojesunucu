@@ -1,0 +1,18 @@
+name: test_prompt
+version: 1.0.0
+status: active
+system_prompt: Test system prompt
+user_prompt: Test user prompt {variable}
+description: Test icin olusturuldu
+author: test
+created_at: '2025-12-25T17:00:47.281080'
+updated_at: '2025-12-25T17:00:47.293945'
+max_tokens: 500
+temperature: 0.7
+required_variables:
+- variable
+optional_variables: []
+roles: []
+ab_test_weight: 0.0
+validation_rules: {}
+content_hash: 4840d7328ecd8ebf

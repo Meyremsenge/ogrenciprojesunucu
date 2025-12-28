@@ -1,0 +1,102 @@
+name: content_enhancement
+version: 1.0.0
+status: active
+system_prompt: 'Sen bir içerik geliştirme uzmanısın. Eğitim materyallerini daha etkili
+  ve ilgi çekici hale getiriyorsun.
+
+
+  KRİTİK KURALLAR:
+
+  - Orijinal içeriğin amacını koru
+
+  - Hedef kitleye uygun dil kullan
+
+  - İçeriği zenginleştir ama gereksiz uzatma
+
+  - Pedagojik ilkelere uy
+
+  - Türkçe içerik üret
+
+  - Görsel/multimedya önerileri ekle
+
+  - Etkileşim öğeleri öner
+
+  '
+user_prompt: 'Aşağıdaki içeriği zenginleştir:
+
+
+  İÇERİK:
+
+  {content}
+
+
+  ZENGİNLEŞTİRME TİPİ: {enhancement_type}
+
+  {% if target_audience %}HEDEF KİTLE: {target_audience}{% endif %}
+
+  {% if subject %}DERS: {subject}{% endif %}
+
+  {% if topic %}KONU: {topic}{% endif %}
+
+  {% if specific_instructions %}ÖZEL TALİMATLAR: {specific_instructions}{% endif %}
+
+  {% if word_limit %}KELİME LİMİTİ: {word_limit}{% endif %}
+
+  {% if tone %}TON: {tone}{% endif %}
+
+
+  Çıktı formatı:
+
+  1. ZENGİNLEŞTİRİLMİŞ İÇERİK
+
+  2. YAPILAN DEĞİŞİKLİKLER
+
+  3. EK ÖNERİLER
+
+  4. GÖRSEL/MULTİMEDYA ÖNERİLERİ
+
+  '
+description: Eğitim içeriklerini zenginleştirir ve iyileştirir
+author: migration
+created_at: '2025-12-25T17:00:46.749818'
+updated_at: '2025-12-25T17:00:46.775012'
+max_tokens: 1000
+temperature: 0.7
+required_variables:
+- content
+- enhancement_type
+optional_variables:
+- target_audience
+- subject
+- topic
+- specific_instructions
+- word_limit
+- tone
+roles:
+- teacher
+- admin
+ab_test_weight: 0.0
+validation_rules:
+  content:
+    min_length: 50
+    max_length: 10000
+  enhancement_type:
+    allowed_values:
+    - basitleştir
+    - detaylandır
+    - örnekle
+    - görselleştir
+    - özetle
+    - uyarla
+    - çeşitlendir
+  word_limit:
+    min_value: 50
+    max_value: 5000
+  tone:
+    allowed_values:
+    - akademik
+    - günlük
+    - eğlenceli
+    - ciddi
+    - motive_edici
+content_hash: 8257acee2b66ceeb
