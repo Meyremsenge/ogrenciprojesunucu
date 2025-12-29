@@ -1,0 +1,231 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: ogrenci-sistemi
+  labels:
+    app: ogrenci-sistemi
+    component: api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ogrenci-sistemi
+      component: api
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: ogrenci-sistemi
+        component: api
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: ogrenci-sistemi
+      terminationGracePeriodSeconds: 30
+      
+      containers:
+        - name: api
+          image: ogrenci-sistemi:latest
+          imagePullPolicy: Always
+          
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          
+          envFrom:
+            - configMapRef:
+                name: app-config
+            - secretRef:
+                name: app-secrets
+          
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3
+          
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+          
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 30
+          
+          volumeMounts:
+            - name: uploads
+              mountPath: /app/uploads
+            - name: logs
+              mountPath: /app/logs
+      
+      volumes:
+        - name: uploads
+          persistentVolumeClaim:
+            claimName: uploads-pvc
+        - name: logs
+          emptyDir: {}
+      
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: ogrenci-sistemi
+                    component: api
+                topologyKey: kubernetes.io/hostname
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: celery-worker
+  namespace: ogrenci-sistemi
+  labels:
+    app: ogrenci-sistemi
+    component: celery-worker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ogrenci-sistemi
+      component: celery-worker
+  template:
+    metadata:
+      labels:
+        app: ogrenci-sistemi
+        component: celery-worker
+    spec:
+      serviceAccountName: ogrenci-sistemi
+      terminationGracePeriodSeconds: 300
+      
+      containers:
+        - name: celery-worker
+          image: ogrenci-sistemi:latest
+          imagePullPolicy: Always
+          
+          command:
+            - celery
+            - -A
+            - celery_worker.celery
+            - worker
+            - --loglevel=info
+            - -Q
+            - high,default,low
+          
+          envFrom:
+            - configMapRef:
+                name: app-config
+            - secretRef:
+                name: app-secrets
+          
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          
+          livenessProbe:
+            exec:
+              command:
+                - celery
+                - -A
+                - celery_worker.celery
+                - inspect
+                - ping
+                - -d
+                - celery@$HOSTNAME
+            initialDelaySeconds: 60
+            periodSeconds: 60
+            timeoutSeconds: 30
+            failureThreshold: 3
+          
+          volumeMounts:
+            - name: uploads
+              mountPath: /app/uploads
+      
+      volumes:
+        - name: uploads
+          persistentVolumeClaim:
+            claimName: uploads-pvc
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: celery-beat
+  namespace: ogrenci-sistemi
+  labels:
+    app: ogrenci-sistemi
+    component: celery-beat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ogrenci-sistemi
+      component: celery-beat
+  template:
+    metadata:
+      labels:
+        app: ogrenci-sistemi
+        component: celery-beat
+    spec:
+      serviceAccountName: ogrenci-sistemi
+      terminationGracePeriodSeconds: 60
+      
+      containers:
+        - name: celery-beat
+          image: ogrenci-sistemi:latest
+          imagePullPolicy: Always
+          
+          command:
+            - celery
+            - -A
+            - celery_worker.celery
+            - beat
+            - --loglevel=info
+          
+          envFrom:
+            - configMapRef:
+                name: app-config
+            - secretRef:
+                name: app-secrets
+          
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"

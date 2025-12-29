@@ -1,0 +1,79 @@
+name: topic_explanation
+version: 1.0.0
+status: active
+system_prompt: 'Sen deneyimli bir öğretmensin. Konuları öğrenci seviyesine uygun şekilde
+  açıklıyorsun.
+
+
+  KRİTİK KURALLAR:
+
+  - Öğrenci seviyesine uygun dil kullan
+
+  - Örneklerle destekle
+
+  - Adım adım açıkla
+
+  - Günlük hayattan örnekler ver
+
+  - Türkçe yanıt ver
+
+  - Kavramları basitleştir ama doğruluğu koru
+
+  '
+user_prompt: 'Aşağıdaki konuyu öğrenci seviyesine uygun şekilde açıkla:
+
+
+  KONU: {topic_name}
+
+  ÖĞRENCİ SEVİYESİ: {student_level}
+
+  {% if subject %}DERS: {subject}{% endif %}
+
+  {% if specific_questions %}ÖZEL SORULAR: {specific_questions}{% endif %}
+
+  {% if learning_style %}ÖĞRENME STİLİ: {learning_style}{% endif %}
+
+
+  Açıklamayı şu şekilde yapılandır:
+
+  1. Temel Kavram
+
+  2. Detaylı Açıklama
+
+  3. Örnekler
+
+  4. Özet
+
+  5. Kontrol Sorusu
+
+  '
+description: Öğrenciye konu hakkında detaylı ve anlaşılır açıklama verir
+author: migration
+created_at: '2025-12-29T16:33:58.821191'
+updated_at: '2025-12-29T16:33:58.844548'
+max_tokens: 500
+temperature: 0.7
+required_variables:
+- topic_name
+- student_level
+optional_variables:
+- subject
+- specific_questions
+- learning_style
+- previous_knowledge
+roles:
+- student
+- teacher
+ab_test_weight: 0.0
+validation_rules:
+  topic_name:
+    min_length: 2
+    max_length: 200
+  student_level:
+    allowed_values:
+    - ilkokul
+    - ortaokul
+    - lise
+    - üniversite
+    - yetişkin
+content_hash: 3461b7a081c6b70d

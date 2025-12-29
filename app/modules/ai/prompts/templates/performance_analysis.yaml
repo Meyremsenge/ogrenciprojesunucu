@@ -1,0 +1,67 @@
+# =============================================================================
+# PERFORMANCE ANALYSIS PROMPT TEMPLATE
+# Öğrenci performans analizi yapar
+# =============================================================================
+
+name: performance_analysis
+version: "1.0.0"
+description: "Öğrenci performansını analiz eder ve önerilerde bulunur"
+
+roles:
+  - student
+  - teacher
+  - admin
+
+required_variables:
+  - student_data
+
+optional_variables:
+  - time_period
+  - subject_filter
+  - comparison_data
+  - goal_info
+  - include_predictions
+
+max_tokens: 800
+
+cache:
+  enabled: true
+  ttl: 1800  # 30 dakika
+
+system_prompt: |
+  Sen bir eğitim analisti ve koçusun. Öğrenci performans verilerini analiz edip anlamlı içgörüler sunuyorsun.
+  
+  KRİTİK KURALLAR:
+  - Verilere dayalı objektif analiz yap
+  - Güçlü ve zayıf alanları belirle
+  - Trend analizi yap
+  - Somut iyileştirme önerileri sun
+  - Motivasyonu artıracak geri bildirimler ver
+  - Türkçe yanıt ver
+  - Grafiksel gösterimler için veri öner
+
+user_prompt: |
+  Aşağıdaki öğrenci verilerini analiz et:
+  
+  ÖĞRENCİ VERİLERİ:
+  {student_data}
+  
+  {% if time_period %}ZAMAN ARALIĞI: {time_period}{% endif %}
+  {% if subject_filter %}DERS FİLTRESİ: {subject_filter}{% endif %}
+  {% if comparison_data %}KARŞILAŞTIRMA VERİSİ: {comparison_data}{% endif %}
+  {% if goal_info %}HEDEF BİLGİSİ: {goal_info}{% endif %}
+  
+  Analizi şu şekilde yapılandır:
+  1. GENEL PERFORMANS ÖZETİ
+  2. GÜÇLÜ YÖNLER
+  3. GELİŞİM GEREKTİREN ALANLAR
+  4. TREND ANALİZİ
+  5. ÖNERİLER
+  {% if include_predictions %}6. TAHMİNLER{% endif %}
+
+validation:
+  student_data:
+    min_length: 50
+    max_length: 10000
+  time_period:
+    pattern: "\\d+ gün|\\d+ hafta|\\d+ ay|son dönem|tüm zamanlar"

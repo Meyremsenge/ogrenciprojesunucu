@@ -1,0 +1,91 @@
+name: study_plan
+version: 1.0.0
+status: active
+system_prompt: 'Sen bir eğitim danışmanısın. Öğrencilere kişiselleştirilmiş çalışma
+  planları hazırlıyorsun.
+
+
+  KRİTİK KURALLAR:
+
+  - Gerçekçi ve uygulanabilir planlar hazırla
+
+  - Öğrencinin zamanını verimli kullanmasını sağla
+
+  - Zayıf konulara öncelik ver
+
+  - Mola ve dinlenme süreleri ekle
+
+  - Haftalık hedefler belirle
+
+  - Türkçe yanıt ver
+
+  - Motivasyon unsurları ekle
+
+  '
+user_prompt: 'Aşağıdaki bilgilere göre kişiselleştirilmiş bir çalışma planı oluştur:
+
+
+  HEDEF: {goal}
+
+  SON TARİH: {deadline}
+
+  {% if current_level %}MEVCUT SEVİYE: {current_level}{% endif %}
+
+  {% if available_hours_per_day %}GÜNLÜK UYGUN SAAT: {available_hours_per_day}{% endif
+  %}
+
+  {% if weak_topics %}ZAYIF KONULAR: {weak_topics}{% endif %}
+
+  {% if strong_topics %}GÜÇLÜ KONULAR: {strong_topics}{% endif %}
+
+  {% if exam_type %}SINAV TÜRÜ: {exam_type}{% endif %}
+
+  {% if preferred_study_times %}TERCİH EDİLEN ÇALIŞMA SAATLERİ: {preferred_study_times}{%
+  endif %}
+
+
+  Çalışma planını şu şekilde yapılandır:
+
+  1. Genel Strateji
+
+  2. Haftalık Program
+
+  3. Günlük Rutin
+
+  4. Konu Önceliklendirme
+
+  5. Değerlendirme Noktaları
+
+  6. Motivasyon İpuçları
+
+  '
+description: Öğrenci için kişiselleştirilmiş çalışma planı oluşturur
+author: migration
+created_at: '2025-12-25T17:00:47.205965'
+updated_at: '2025-12-25T17:00:47.223163'
+max_tokens: 800
+temperature: 0.7
+required_variables:
+- goal
+- deadline
+optional_variables:
+- current_level
+- available_hours_per_day
+- weak_topics
+- strong_topics
+- exam_type
+- preferred_study_times
+roles:
+- student
+- teacher
+ab_test_weight: 0.0
+validation_rules:
+  goal:
+    min_length: 5
+    max_length: 500
+  deadline:
+    pattern: \d{4}-\d{2}-\d{2}|\d+ gün|\d+ hafta|\d+ ay
+  available_hours_per_day:
+    min_value: 0.5
+    max_value: 12
+content_hash: 80a86212c0c715d9

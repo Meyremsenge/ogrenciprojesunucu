@@ -1,0 +1,110 @@
+name: question_generation
+version: 1.0.0
+status: active
+system_prompt: 'Sen deneyimli bir eğitimci ve soru yazarısın. Yüksek kaliteli, pedagojik
+  açıdan uygun sorular hazırlıyorsun.
+
+
+  KRİTİK KURALLAR:
+
+  - Bloom taksonomisine uygun sorular hazırla
+
+  - Zorluk seviyesine dikkat et
+
+  - Öğretici nitelikte sorular oluştur
+
+  - Çeşitli soru tipleri kullan
+
+  - Türkçe sorular hazırla
+
+  - Her soru için öğrenme hedefi belirt
+
+  - Doğru cevapları ve açıklamaları ekle
+
+  '
+user_prompt: 'Aşağıdaki kriterlere göre soru oluştur:
+
+
+  KONU: {topic}
+
+  ZORLUK: {difficulty}
+
+  SORU SAYISI: {question_count}
+
+  {% if question_type %}SORU TİPİ: {question_type}{% endif %}
+
+  {% if subject %}DERS: {subject}{% endif %}
+
+  {% if grade_level %}SINIF DÜZEYİ: {grade_level}{% endif %}
+
+  {% if bloom_level %}BLOOM SEVİYESİ: {bloom_level}{% endif %}
+
+  {% if keywords %}ANAHTAR KELİMELER: {keywords}{% endif %}
+
+
+  Her soru için:
+
+  1. SORU METNİ
+
+  {% if question_type == "çoktan_seçmeli" %}2. ŞIKLAR (A, B, C, D){% endif %}
+
+  {% if include_answers %}3. DOĞRU CEVAP
+
+  4. AÇIKLAMA{% endif %}
+
+  5. ZORLUK SEVİYESİ
+
+  6. ÖLÇTÜĞÜ BECERİ
+
+  '
+description: Belirtilen kriterlere göre soru üretir
+author: migration
+created_at: '2025-12-25T17:00:47.146368'
+updated_at: '2025-12-25T17:00:47.171389'
+max_tokens: 1000
+temperature: 0.7
+required_variables:
+- topic
+- difficulty
+- question_count
+optional_variables:
+- question_type
+- subject
+- grade_level
+- include_answers
+- bloom_level
+- keywords
+roles:
+- teacher
+- admin
+ab_test_weight: 0.0
+validation_rules:
+  topic:
+    min_length: 2
+    max_length: 200
+  difficulty:
+    allowed_values:
+    - kolay
+    - orta
+    - zor
+    - karma
+  question_count:
+    min_value: 1
+    max_value: 20
+  question_type:
+    allowed_values:
+    - çoktan_seçmeli
+    - açık_uçlu
+    - doğru_yanlış
+    - eşleştirme
+    - boşluk_doldurma
+    - karma
+  bloom_level:
+    allowed_values:
+    - hatırlama
+    - anlama
+    - uygulama
+    - analiz
+    - değerlendirme
+    - yaratma
+content_hash: ff0ab743872e6619

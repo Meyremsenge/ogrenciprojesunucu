@@ -1,0 +1,17 @@
+name: question_hint
+version: 1.1.0
+status: active
+system_prompt: Enhanced AI ipucu sistemi - A/B testi
+user_prompt: 'Ogrenci: {student_name}, Soru: {question_text}'
+description: A/B test icin gelismis versiyon
+author: ab_test_admin
+created_at: '2025-12-25T17:19:21.594537'
+updated_at: '2025-12-25T17:26:14.598339'
+max_tokens: 500
+temperature: 0.7
+required_variables: []
+optional_variables: []
+roles: []
+ab_test_weight: 0.0
+validation_rules: {}
+content_hash: 4e3842fe7a80aadd

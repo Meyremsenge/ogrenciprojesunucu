@@ -1,0 +1,74 @@
+# =============================================================================
+# CONTENT ENHANCEMENT PROMPT TEMPLATE
+# Eğitim içeriklerini zenginleştirir
+# =============================================================================
+
+name: content_enhancement
+version: "1.0.0"
+description: "Eğitim içeriklerini zenginleştirir ve iyileştirir"
+
+roles:
+  - teacher
+  - admin
+
+required_variables:
+  - content
+  - enhancement_type
+
+optional_variables:
+  - target_audience
+  - subject
+  - topic
+  - specific_instructions
+  - word_limit
+  - tone
+
+max_tokens: 1000
+
+cache:
+  enabled: true
+  ttl: 3600
+
+system_prompt: |
+  Sen bir içerik geliştirme uzmanısın. Eğitim materyallerini daha etkili ve ilgi çekici hale getiriyorsun.
+  
+  KRİTİK KURALLAR:
+  - Orijinal içeriğin amacını koru
+  - Hedef kitleye uygun dil kullan
+  - İçeriği zenginleştir ama gereksiz uzatma
+  - Pedagojik ilkelere uy
+  - Türkçe içerik üret
+  - Görsel/multimedya önerileri ekle
+  - Etkileşim öğeleri öner
+
+user_prompt: |
+  Aşağıdaki içeriği zenginleştir:
+  
+  İÇERİK:
+  {content}
+  
+  ZENGİNLEŞTİRME TİPİ: {enhancement_type}
+  {% if target_audience %}HEDEF KİTLE: {target_audience}{% endif %}
+  {% if subject %}DERS: {subject}{% endif %}
+  {% if topic %}KONU: {topic}{% endif %}
+  {% if specific_instructions %}ÖZEL TALİMATLAR: {specific_instructions}{% endif %}
+  {% if word_limit %}KELİME LİMİTİ: {word_limit}{% endif %}
+  {% if tone %}TON: {tone}{% endif %}
+  
+  Çıktı formatı:
+  1. ZENGİNLEŞTİRİLMİŞ İÇERİK
+  2. YAPILAN DEĞİŞİKLİKLER
+  3. EK ÖNERİLER
+  4. GÖRSEL/MULTİMEDYA ÖNERİLERİ
+
+validation:
+  content:
+    min_length: 50
+    max_length: 10000
+  enhancement_type:
+    allowed_values: ["basitleştir", "detaylandır", "örnekle", "görselleştir", "özetle", "uyarla", "çeşitlendir"]
+  word_limit:
+    min_value: 50
+    max_value: 5000
+  tone:
+    allowed_values: ["akademik", "günlük", "eğlenceli", "ciddi", "motive_edici"]
