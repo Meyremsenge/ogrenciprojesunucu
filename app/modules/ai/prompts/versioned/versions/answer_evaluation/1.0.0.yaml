@@ -61,8 +61,8 @@ user_prompt: 'Aşağıdaki öğrenci cevabını değerlendir:
   '
 description: Öğrenci cevaplarını değerlendirir ve geri bildirim sağlar
 author: migration
-created_at: '2025-12-29T20:28:24.495568'
-updated_at: '2025-12-29T20:28:24.519032'
+created_at: '2025-12-29T20:11:29.525142'
+updated_at: '2025-12-29T20:11:29.543805'
 max_tokens: 600
 temperature: 0.7
 required_variables:

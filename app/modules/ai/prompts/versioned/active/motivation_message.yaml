@@ -43,8 +43,8 @@ user_prompt: 'Aşağıdaki öğrenci için motivasyon mesajı oluştur:
   '
 description: Öğrencilere kişiselleştirilmiş motivasyon mesajları üretir
 author: migration
-created_at: '2025-12-29T20:28:24.853498'
-updated_at: '2025-12-29T20:28:24.889219'
+created_at: '2025-12-29T20:11:29.723979'
+updated_at: '2025-12-29T20:11:29.742576'
 max_tokens: 150
 temperature: 0.7
 required_variables:
