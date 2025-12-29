@@ -137,4 +137,21 @@ __all__ = [
     'AIUsageSummary',
     'AIDataRetentionPolicy',
     'PromptTemplateStatus',
+    
+    # Education Video models
+    'EducationVideo',
+    'VideoWatchHistory',
+    'GradeLevel',
+    'EducationLevel',
+    'Subject',
+    'VideoOwnerType',
+    'GRADE_LABELS',
+    'EDUCATION_LEVEL_LABELS',
+    'SUBJECT_LABELS',
+    
+    # Goal models (Hedefler)
+    'Goal',
+    'GoalAssignment',
+    'GoalType',
+    'GoalStatus',
 ]

@@ -28,10 +28,7 @@ __all__ = [
     'Exam',
     'ExamStatus',
     'ExamType',
-<<<<<<< HEAD
-=======
     'ExamOwnerType',
->>>>>>> eski/main
     'ExamAttempt',
     'AttemptStatus',
     'AttemptAnswer',

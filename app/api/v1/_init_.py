@@ -98,6 +98,14 @@ def register_module_blueprints(app):
     from app.modules.live_classes import live_classes_bp
     app.register_blueprint(live_classes_bp, url_prefix='/api/v1/live-classes')
     
+    # Education Videos modülünü kaydet (YouTube tabanlı eğitim videoları)
+    from app.modules.education_videos import education_videos_bp
+    app.register_blueprint(education_videos_bp, url_prefix='/api/v1/education-videos')
+    
+    # Goals modülünü kaydet (Öğrenci hedefleri)
+    from app.modules.goals import goals_bp
+    app.register_blueprint(goals_bp, url_prefix='/api/v1/goals')
+    
     app.logger.info('AI module blueprint registered at /api/v1/ai')
     app.logger.info('Admin module blueprint registered at /api/v1/admin')
     app.logger.info('Logs module blueprint registered at /api/v1/logs')
