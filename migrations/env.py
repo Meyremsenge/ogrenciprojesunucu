@@ -20,8 +20,11 @@ from app.models import *  # noqa: Import all models
 config = context.config
 
 # Interpret the config file for Python logging
-if config.config_file_name is not None:
-    fileConfig(config.config_file_name)
+# Get the absolute path to alembic.ini
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+alembic_ini = os.path.join(project_root, 'alembic.ini')
+if os.path.exists(alembic_ini):
+    fileConfig(alembic_ini)
 
 # Create Flask app for configuration
 flask_app = create_app()

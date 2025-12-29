@@ -35,6 +35,7 @@ const SuperAdminDashboard = lazy(() => import('@/pages/dashboards/SuperAdminDash
 const CoursesPage = lazy(() => import('@/pages/courses/CoursesPage'));
 const CourseDetailPage = lazy(() => import('@/pages/courses/CourseDetailPage'));
 const MyCoursesPage = lazy(() => import('@/pages/courses/MyCoursesPage'));
+const EducationVideosPage = lazy(() => import('@/pages/courses/EducationVideosPage'));
 
 const ContentsPage = lazy(() => import('@/pages/contents/ContentsPage'));
 const ContentDetailPage = lazy(() => import('@/pages/contents/ContentDetailPage'));
@@ -52,6 +53,7 @@ const CourseManagementPage = lazy(() => import('@/pages/teacher/CourseManagement
 const VideoUploadPage = lazy(() => import('@/pages/teacher/VideoUploadPage'));
 const CalendarManagementPage = lazy(() => import('@/pages/teacher/CalendarManagementPage'));
 const ExamManagementPage = lazy(() => import('@/pages/teacher/ExamManagementPage'));
+const QuizManagementPage = lazy(() => import('@/pages/teacher/QuizManagementPage'));
 
 const ExamsPage = lazy(() => import('@/pages/exams/ExamsPage'));
 const ExamTakePage = lazy(() => import('@/pages/exams/ExamTakePage'));
@@ -76,10 +78,10 @@ const AuditLogsPage = lazy(() => import('@/pages/super-admin/AuditLogsPage'));
 const SecurityCenterPage = lazy(() => import('@/pages/super-admin/SecurityCenterPage'));
 const AIPrivacyCenterPage = lazy(() => import('@/pages/super-admin/AIPrivacyCenterPage'));
 const OrganizationManagementPage = lazy(() => import('@/pages/admin/OrganizationManagementPage'));
+const OrganizationDetailPage = lazy(() => import('@/pages/super-admin/OrganizationDetailPage'));
 
 const ProfilePage = lazy(() => import('@/pages/profile/ProfilePage'));
-const NotificationsPage = lazy(() => import('@/pages/notifications/NotificationsPage'));
-const MessagesPage = lazy(() => import('@/pages/messages/MessagesPage'));
+// Notifications ve Messages sayfaları kaldırıldı
 const SchedulePage = lazy(() => import('@/pages/schedule/SchedulePage'));
 
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
@@ -151,6 +153,9 @@ export default function App() {
                   <Route path="/courses/:id" element={<CourseDetailPage />} />
                   <Route path="/my-courses" element={<MyCoursesPage />} />
                   
+                  {/* Education Videos - All roles can view */}
+                  <Route path="/student/education-videos" element={<EducationVideosPage />} />
+                  
                   {/* Contents */}
                   <Route path="/contents" element={<ContentsPage />} />
                   <Route path="/contents/:id" element={<ContentDetailPage />} />
@@ -177,7 +182,9 @@ export default function App() {
                   <Route path="/teacher/courses" element={<CourseManagementPage />} />
                   <Route path="/teacher/calendar" element={<CalendarManagementPage />} />
                   <Route path="/teacher/exams" element={<ExamManagementPage />} />
+                  <Route path="/teacher/quizzes" element={<QuizManagementPage />} />
                   <Route path="/teacher/courses/:courseId/topics/:topicId/videos/add" element={<VideoUploadPage />} />
+                  <Route path="/teacher/education-videos" element={<EducationVideosPage />} />
                   <Route path="/live-classes/start" element={<StartLiveClassPage />} />
                 </Route>
 
@@ -199,14 +206,18 @@ export default function App() {
                   <Route path="/super-admin/audit" element={<AuditLogsPage />} />
                   <Route path="/super-admin/security" element={<SecurityCenterPage />} />
                   <Route path="/super-admin/organizations" element={<OrganizationManagementPage />} />
+                  <Route path="/super-admin/organizations/:id" element={<OrganizationDetailPage />} />
                   {/* AI Privacy Center (KVKK/GDPR) */}
                   <Route path="/super-admin/ai/privacy" element={<AIPrivacyCenterPage />} />
+                  {/* Education Videos - Super Admin manages system videos */}
+                  <Route path="/education-videos" element={<EducationVideosPage />} />
+                  {/* Exam Management - Super Admin manages system exams */}
+                  <Route path="/super-admin/exams" element={<ExamManagementPage />} />
+                  <Route path="/super-admin/quizzes" element={<QuizManagementPage />} />
                 </Route>
 
                 {/* Common Protected Routes */}
                 <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/notifications" element={<NotificationsPage />} />
-                <Route path="/messages" element={<MessagesPage />} />
               </Route>
             </Route>
 

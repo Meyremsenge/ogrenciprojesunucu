@@ -38,8 +38,7 @@ export function Sidebar() {
           'fixed left-0 top-0 z-40 h-screen bg-card border-r border-border',
           'transition-all duration-300 ease-in-out',
           'hidden lg:block',
-          sidebarCollapsed ? 'w-20' : 'w-64',
-          !sidebarOpen && 'lg:-translate-x-full'
+          sidebarCollapsed ? 'w-20' : 'w-64'
         )}
       >
         <SidebarContent

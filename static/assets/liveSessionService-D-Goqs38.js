@@ -1,1 +1,0 @@
-import{a as e}from"./api-Tqb-OO70.js";async function t(s){return(await e.get("/live-classes",{params:s})).data}async function o(s){return(await e.post(`/live-classes/${s}/register`)).data.data.attendance}async function r(s){return(await e.get("/live-classes/my-sessions",{params:s})).data}export{t as a,r as g,o as r};

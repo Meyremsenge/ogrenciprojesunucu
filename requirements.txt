@@ -48,6 +48,7 @@ Pillow==10.1.0
 
 # Utilities
 python-dateutil==2.8.2
+python-slugify==8.0.4
 pytz==2023.3
 requests==2.31.0
 PyYAML==6.0.1

@@ -20,6 +20,7 @@ import {
   TrendingUp,
   Loader2,
   AlertCircle,
+  CheckCircle2,
 } from 'lucide-react';
 
 import { useUser } from '@/stores/authStore';
@@ -33,6 +34,7 @@ import {
   AchievementBadge,
 } from '@/components/dashboard';
 import { getStudentDashboard, type StudentDashboardData } from '@/services/dashboardService';
+import { getMyGoals, type Goal, GOAL_STATUS_LABELS, getGoalStatusColor, getGoalTypeIcon } from '@/services/goalService';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // 🎨 MAIN COMPONENT
@@ -48,6 +50,13 @@ export default function StudentDashboard() {
     queryFn: getStudentDashboard,
     staleTime: 1000 * 60 * 5, // 5 dakika cache
     refetchOnWindowFocus: true,
+  });
+
+  // Hedeflerimi çek
+  const { data: goalsData } = useQuery({
+    queryKey: ['myGoals'],
+    queryFn: () => getMyGoals({ status: 'pending' }),
+    staleTime: 1000 * 60 * 2, // 2 dakika cache
   });
 
   // Loading state
@@ -358,6 +367,31 @@ export default function StudentDashboard() {
             </DashboardSection>
           )}
 
+          {/* Hedeflerim */}
+          {goalsData && goalsData.goals.length > 0 && (
+            <DashboardSection title="Hedeflerim" icon={Target}>
+              <div className="space-y-2">
+                {goalsData.goals.slice(0, 4).map((goal: Goal) => (
+                  <GoalCard key={goal.id} goal={goal} onClick={() => {
+                    if (goal.target_type === 'exam' && goal.target_id) {
+                      navigate(`/exams/${goal.target_id}`);
+                    }
+                  }} />
+                ))}
+              </div>
+              {goalsData.count > 4 && (
+                <Button
+                  variant="ghost"
+                  className="w-full mt-2 text-sm"
+                  onClick={() => navigate('/goals')}
+                >
+                  Tümünü Gör ({goalsData.count})
+                  <ChevronRight className="h-4 w-4 ml-1" />
+                </Button>
+              )}
+            </DashboardSection>
+          )}
+
           {/* Achievements */}
           {achievements.length > 0 && (
             <DashboardSection title="Başarılar" icon={Star}>
@@ -473,6 +507,84 @@ function CourseProgressCard({ course, onClick }: CourseProgressCardProps) {
           <Play className="h-4 w-4" />
         </button>
       </div>
+    </div>
+  );
+}
+
+// Goal Card Component
+interface GoalCardProps {
+  goal: Goal;
+  onClick?: () => void;
+}
+
+function GoalCard({ goal, onClick }: GoalCardProps) {
+  const dueDate = goal.due_date ? new Date(goal.due_date) : null;
+  const daysLeft = dueDate ? Math.ceil((dueDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24)) : null;
+  const isUrgent = daysLeft !== null && daysLeft <= 3 && daysLeft > 0;
+  const isOverdue = daysLeft !== null && daysLeft < 0;
+  
+  return (
+    <div
+      onClick={onClick}
+      className={cn(
+        'flex items-center gap-3 p-3 rounded-lg border transition-all cursor-pointer',
+        goal.status === 'completed' 
+          ? 'bg-green-500/5 border-green-500/20'
+          : isUrgent
+            ? 'bg-orange-500/5 border-orange-500/20 hover:border-orange-500/40'
+            : isOverdue
+              ? 'bg-red-500/5 border-red-500/20'
+              : 'bg-muted/50 border-transparent hover:bg-muted'
+      )}
+    >
+      {/* Icon */}
+      <div className={cn(
+        'w-8 h-8 rounded-lg flex items-center justify-center text-lg shrink-0',
+        goal.status === 'completed'
+          ? 'bg-green-500/10'
+          : isUrgent
+            ? 'bg-orange-500/10'
+            : 'bg-primary/10'
+      )}>
+        {goal.status === 'completed' ? (
+          <CheckCircle2 className="h-4 w-4 text-green-500" />
+        ) : (
+          getGoalTypeIcon(goal.goal_type)
+        )}
+      </div>
+      
+      {/* Content */}
+      <div className="flex-1 min-w-0">
+        <h4 className="text-sm font-medium truncate">{goal.title}</h4>
+        <div className="flex items-center gap-2 mt-0.5">
+          <span className={cn(
+            'text-xs px-1.5 py-0.5 rounded',
+            getGoalStatusColor(goal.status)
+          )}>
+            {GOAL_STATUS_LABELS[goal.status]}
+          </span>
+          {daysLeft !== null && goal.status !== 'completed' && (
+            <span className={cn(
+              'text-xs',
+              isOverdue ? 'text-red-500' : isUrgent ? 'text-orange-500' : 'text-muted-foreground'
+            )}>
+              {isOverdue 
+                ? `${Math.abs(daysLeft)} gün geçti` 
+                : daysLeft === 0 
+                  ? 'Bugün!' 
+                  : `${daysLeft} gün kaldı`}
+            </span>
+          )}
+        </div>
+      </div>
+      
+      {/* Progress */}
+      {goal.target_score && (
+        <div className="text-right shrink-0">
+          <p className="text-xs text-muted-foreground">Hedef</p>
+          <p className="text-sm font-medium">%{goal.target_score}</p>
+        </div>
+      )}
     </div>
   );
 }

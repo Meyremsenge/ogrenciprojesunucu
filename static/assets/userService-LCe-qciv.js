@@ -1,1 +1,0 @@
-import{a}from"./api-Tqb-OO70.js";const t=async()=>(await a.get("/users/profile")).data.data.user,o=async s=>(await a.put("/users/profile",s)).data.data.user,n=async s=>(await a.post("/users/password/change",s)).data.data.user;export{n as c,t as g,o as u};

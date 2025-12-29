@@ -15,8 +15,6 @@ import {
   Users,
   Settings,
   Shield,
-  Bell,
-  MessageSquare,
   User,
   Bot,
   Gauge,
@@ -84,6 +82,11 @@ export const STUDENT_NAV: NavItem[] = [
     icon: LayoutDashboard,
   },
   {
+    path: '/student/education-videos',
+    title: 'Eğitim Videoları',
+    icon: Video,
+  },
+  {
     path: '/my-courses',
     title: 'Kurslarım',
     icon: BookOpen,
@@ -114,11 +117,6 @@ export const STUDENT_NAV: NavItem[] = [
     icon: Calendar,
   },
   {
-    path: '/messages',
-    title: 'Mesajlar',
-    icon: MessageSquare,
-  },
-  {
     path: '/profile',
     title: 'Profilim',
     icon: User,
@@ -135,6 +133,11 @@ export const TEACHER_NAV: NavItem[] = [
     icon: LayoutDashboard,
   },
   {
+    path: '/teacher/education-videos',
+    title: 'Eğitim Videoları',
+    icon: Video,
+  },
+  {
     path: '/teacher/courses',
     title: 'Kurs Yönetimi',
     icon: BookOpen,
@@ -147,6 +150,11 @@ export const TEACHER_NAV: NavItem[] = [
   {
     path: '/teacher/exams',
     title: 'Sınav Yönetimi',
+    icon: FileQuestion,
+  },
+  {
+    path: '/teacher/quizzes',
+    title: 'Quiz Yönetimi',
     icon: FileQuestion,
   },
   {
@@ -169,11 +177,6 @@ export const TEACHER_NAV: NavItem[] = [
     title: 'Raporlar',
     icon: BarChart3,
     permissions: [Permission.REPORTS_VIEW],
-  },
-  {
-    path: '/messages',
-    title: 'Mesajlar',
-    icon: MessageSquare,
   },
   {
     path: '/profile',
@@ -238,11 +241,6 @@ export const ADMIN_NAV: NavItem[] = [
     ],
   },
   {
-    path: '/notifications',
-    title: 'Bildirimler',
-    icon: Bell,
-  },
-  {
     path: '/admin/settings',
     title: 'Ayarlar',
     icon: Settings,
@@ -266,39 +264,28 @@ export const SUPER_ADMIN_NAV: NavItem[] = [
   },
   {
     path: '/super-admin/organizations',
-    title: 'Kurum Yönetimi',
+    title: 'Kurumlar',
     icon: Building2,
-    permissions: [Permission.SYSTEM_CONFIG],
   },
   {
-    path: '/admin/users',
-    title: 'Kullanıcılar',
-    icon: Users,
-    permissions: [Permission.USERS_READ],
-  },
-  {
-    path: '/admin/roles',
-    title: 'Roller & Yetkiler',
-    icon: Shield,
-    permissions: [Permission.USERS_ASSIGN_ROLE],
-  },
-  {
-    path: '/courses',
-    title: 'Kurslar',
+    path: '/education-videos',
+    title: 'Eğitim Videoları',
     icon: BookOpen,
-    permissions: [Permission.COURSES_MANAGE],
   },
   {
-    path: '/exams',
-    title: 'Sınavlar',
+    path: '/super-admin/exams',
+    title: 'Sınav Yönetimi',
     icon: FileQuestion,
-    permissions: [Permission.EXAMS_MANAGE],
+  },
+  {
+    path: '/super-admin/quizzes',
+    title: 'Quiz Yönetimi',
+    icon: FileQuestion,
   },
   {
     path: '/admin/reports',
     title: 'Raporlar',
     icon: BarChart3,
-    permissions: [Permission.REPORTS_VIEW],
   },
   {
     path: '/admin/ai',
@@ -328,15 +315,9 @@ export const SUPER_ADMIN_NAV: NavItem[] = [
     ],
   },
   {
-    path: '/notifications',
-    title: 'Bildirimler',
-    icon: Bell,
-  },
-  {
     path: '/admin/settings',
     title: 'Ayarlar',
     icon: Settings,
-    permissions: [Permission.SYSTEM_CONFIG],
   },
   {
     path: '/profile',

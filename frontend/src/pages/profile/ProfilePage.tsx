@@ -15,7 +15,6 @@ import {
   Camera,
   Save,
   Shield,
-  Bell,
   Key,
   LogOut,
   Loader2,
@@ -29,7 +28,6 @@ import { getMyProfile, updateMyProfile, changePassword, uploadAvatar } from '@/s
 const TABS = [
   { key: 'profile', label: 'Profil Bilgileri', icon: User },
   { key: 'security', label: 'Güvenlik', icon: Shield },
-  { key: 'notifications', label: 'Bildirim Tercihleri', icon: Bell },
 ];
 
 export default function ProfilePage() {
@@ -489,35 +487,6 @@ export default function ProfilePage() {
                       ))}
                     </div>
                   </div>
-                </div>
-              </div>
-            )}
-
-            {activeTab === 'notifications' && (
-              <div className="space-y-6">
-                <h3 className="text-lg font-semibold">Bildirim Tercihleri</h3>
-
-                <div className="space-y-4">
-                  {[
-                    { key: 'email_course', label: 'Kurs güncellemeleri', description: 'Yeni içerik ve duyurular' },
-                    { key: 'email_exam', label: 'Sınav hatırlatmaları', description: 'Yaklaşan sınavlar ve sonuçlar' },
-                    { key: 'email_marketing', label: 'Promosyonlar', description: 'İndirim ve kampanyalar' },
-                    { key: 'push_all', label: 'Push bildirimleri', description: 'Anlık bildirimler' },
-                  ].map((item) => (
-                    <div
-                      key={item.key}
-                      className="flex items-center justify-between p-4 border rounded-lg"
-                    >
-                      <div>
-                        <h4 className="font-medium">{item.label}</h4>
-                        <p className="text-sm text-muted-foreground">{item.description}</p>
-                      </div>
-                      <label className="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" defaultChecked className="sr-only peer" />
-                        <div className="w-11 h-6 bg-muted peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-                      </label>
-                    </div>
-                  ))}
                 </div>
               </div>
             )}

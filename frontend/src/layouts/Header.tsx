@@ -5,7 +5,6 @@
 
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  Bell,
   Menu,
   Search,
   Settings,
@@ -28,7 +27,7 @@ export function Header() {
   const user = useUser();
   const theme = useTheme();
   const { logout } = useAuthStore();
-  const { toggleSidebar, setTheme, notificationCount } = useUIStore();
+  const { toggleSidebar, setTheme } = useUIStore();
   
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -97,19 +96,6 @@ export function Header() {
               <Moon className="h-5 w-5" />
             )}
           </button>
-
-          {/* Notifications */}
-          <Link
-            to="/notifications"
-            className="relative p-2 rounded-lg hover:bg-muted"
-          >
-            <Bell className="h-5 w-5" />
-            {notificationCount > 0 && (
-              <span className="absolute top-1 right-1 w-4 h-4 bg-destructive text-destructive-foreground text-xs rounded-full flex items-center justify-center">
-                {notificationCount > 9 ? '9+' : notificationCount}
-              </span>
-            )}
-          </Link>
 
           {/* User Menu */}
           <div className="relative">

@@ -224,6 +224,77 @@ def add_user_to_organization(org_id, user_id):
     )
 
 
+@organizations_bp.route('/<int:org_id>/users', methods=['POST'])
+@jwt_required()
+@super_admin_required
+def create_user_in_organization(org_id):
+    """
+    Kurumda yeni kullanıcı oluştur.
+    
+    Body:
+        - email: Email (zorunlu)
+        - password: Şifre (zorunlu)
+        - first_name: Ad (zorunlu)
+        - last_name: Soyad (zorunlu)
+        - phone: Telefon
+        - role: Rol (student, teacher, admin)
+        - is_active: Aktif mi
+        - is_verified: Doğrulanmış mı
+    """
+    data = request.get_json() or {}
+    
+    # Validasyonlar
+    if not data.get('email'):
+        return error_response('Email zorunludur', status_code=400)
+    if not data.get('password'):
+        return error_response('Şifre zorunludur', status_code=400)
+    if not data.get('first_name'):
+        return error_response('Ad zorunludur', status_code=400)
+    if not data.get('last_name'):
+        return error_response('Soyad zorunludur', status_code=400)
+    
+    role = data.get('role', 'student')
+    if role not in ['student', 'teacher', 'admin']:
+        return error_response('Geçersiz rol', status_code=400)
+    
+    user = OrganizationService.create_user_in_organization(
+        org_id=org_id,
+        email=data['email'],
+        password=data['password'],
+        first_name=data['first_name'],
+        last_name=data['last_name'],
+        phone=data.get('phone'),
+        role=role,
+        is_active=data.get('is_active', True),
+        is_verified=data.get('is_verified', True)
+    )
+    
+    return success_response(
+        data=user.to_dict(),
+        message='Kullanıcı oluşturuldu',
+        status_code=201
+    )
+
+
+@organizations_bp.route('/<int:org_id>/users/<int:user_id>', methods=['PUT'])
+@jwt_required()
+@super_admin_required
+def update_user_in_organization(org_id, user_id):
+    """Kurumdaki kullanıcıyı güncelle."""
+    data = request.get_json() or {}
+    
+    user = OrganizationService.update_user_in_organization(
+        org_id=org_id,
+        user_id=user_id,
+        data=data
+    )
+    
+    return success_response(
+        data=user.to_dict(),
+        message='Kullanıcı güncellendi'
+    )
+
+
 @organizations_bp.route('/<int:org_id>/users/<int:user_id>', methods=['DELETE'])
 @jwt_required()
 @super_admin_required
