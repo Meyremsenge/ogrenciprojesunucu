@@ -38,9 +38,10 @@ class ExamCreateSchema(RequestSchema):
     title = fields.String(required=True, validate=lambda x: len(x) >= 3)
     description = fields.String(required=False, allow_none=True)
     instructions = fields.String(required=False, allow_none=True)
-    course_id = fields.Integer(required=True)
+    course_id = fields.Integer(required=False, allow_none=True)
     topic_id = fields.Integer(required=False, allow_none=True)
     exam_type = fields.String(required=False, load_default='quiz')
+    grade_level = fields.String(required=False, allow_none=True)  # Kademe/sınıf seviyesi
     duration_minutes = fields.Integer(required=False, load_default=60)
     pass_score = fields.Float(required=False, load_default=50.0)
     max_attempts = fields.Integer(required=False, load_default=1)
@@ -51,14 +52,20 @@ class ExamCreateSchema(RequestSchema):
     available_until = fields.DateTime(required=False, allow_none=True)
     
     @validates('exam_type')
-    def validate_exam_type(self, value):
+    def validate_exam_type(self, value, **kwargs):
         allowed = ['quiz', 'midterm', 'final', 'practice', 'homework']
         if value and value not in allowed:
             raise ValidationError(f'Geçersiz sınav tipi. İzin verilen: {", ".join(allowed)}')
     
+    @validates('grade_level')
+    def validate_grade_level(self, value, **kwargs):
+        allowed = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'mezun', 'tyt', 'ayt']
+        if value and value not in allowed:
+            raise ValidationError(f'Geçersiz kademe/sınıf. İzin verilen: {", ".join(allowed)}')
+    
     @validates('pass_score')
-    def validate_pass_score(self, value):
-        if value < 0 or value > 100:
+    def validate_pass_score(self, value, **kwargs):
+        if value is not None and (value < 0 or value > 100):
             raise ValidationError('Geçme notu 0-100 arasında olmalı')
 
 
@@ -81,7 +88,7 @@ class QuestionCreateSchema(RequestSchema):
     answers = fields.List(fields.Nested(AnswerCreateSchema), required=False, load_default=[])
     
     @validates('question_type')
-    def validate_question_type(self, value):
+    def validate_question_type(self, value, **kwargs):
         allowed = ['single_choice', 'multiple_choice', 'true_false', 'short_answer', 'essay', 'fill_blank']
         if value and value not in allowed:
             raise ValidationError(f'Geçersiz soru tipi. İzin verilen: {", ".join(allowed)}')

@@ -16,7 +16,7 @@ from app.core.exceptions import NotFoundError, ValidationError, AuthorizationErr
 from app.core.pagination import PaginationResult, paginate_query
 from app.modules.exams.models import (
     Exam, Question, Answer, ExamAttempt, AttemptAnswer,
-    ExamStatus, AttemptStatus, QuestionType
+    ExamStatus, AttemptStatus, QuestionType, GradeLevel, ExamType
 )
 
 
@@ -101,6 +101,19 @@ class ExamService(BaseService[Exam]):
             claims = get_jwt()
             if claims.get('role') not in ['admin', 'super_admin']:
                 raise AuthorizationError('Bu sınavı düzenleme yetkiniz yok')
+        
+        # Enum dönüşümleri
+        if 'exam_type' in data and data['exam_type']:
+            if isinstance(data['exam_type'], str):
+                data['exam_type'] = ExamType(data['exam_type'])
+        
+        if 'grade_level' in data and data['grade_level']:
+            if isinstance(data['grade_level'], str):
+                data['grade_level'] = GradeLevel(data['grade_level'])
+        
+        if 'status' in data and data['status']:
+            if isinstance(data['status'], str):
+                data['status'] = ExamStatus(data['status'])
         
         for key, value in data.items():
             if hasattr(exam, key) and key not in ['id', 'created_by']:

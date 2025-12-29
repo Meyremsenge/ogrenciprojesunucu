@@ -19,9 +19,12 @@ interface UIState {
   // Modals
   activeModal: string | null;
   modalData: unknown;
+<<<<<<< HEAD
   
   // Notifications
   notificationCount: number;
+=======
+>>>>>>> eski/main
 
   // Actions
   toggleSidebar: () => void;
@@ -30,7 +33,10 @@ interface UIState {
   setTheme: (theme: Theme) => void;
   openModal: (modalId: string, data?: unknown) => void;
   closeModal: () => void;
+<<<<<<< HEAD
   setNotificationCount: (count: number) => void;
+=======
+>>>>>>> eski/main
 }
 
 export const useUIStore = create<UIState>()(
@@ -42,7 +48,10 @@ export const useUIStore = create<UIState>()(
       theme: 'system',
       activeModal: null,
       modalData: null,
+<<<<<<< HEAD
       notificationCount: 0,
+=======
+>>>>>>> eski/main
 
       // Actions
       toggleSidebar: () =>
@@ -73,9 +82,12 @@ export const useUIStore = create<UIState>()(
 
       closeModal: () =>
         set({ activeModal: null, modalData: null }),
+<<<<<<< HEAD
 
       setNotificationCount: (count) =>
         set({ notificationCount: count }),
+=======
+>>>>>>> eski/main
     }),
     {
       name: 'ui-storage',

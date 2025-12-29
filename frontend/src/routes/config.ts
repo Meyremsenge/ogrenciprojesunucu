@@ -15,8 +15,11 @@ import {
   Users,
   Settings,
   Shield,
+<<<<<<< HEAD
   Bell,
   MessageSquare,
+=======
+>>>>>>> eski/main
   User,
   Bot,
   Gauge,
@@ -84,6 +87,14 @@ export const STUDENT_NAV: NavItem[] = [
     icon: LayoutDashboard,
   },
   {
+<<<<<<< HEAD
+=======
+    path: '/student/education-videos',
+    title: 'Eğitim Videoları',
+    icon: Video,
+  },
+  {
+>>>>>>> eski/main
     path: '/my-courses',
     title: 'Kurslarım',
     icon: BookOpen,
@@ -114,11 +125,14 @@ export const STUDENT_NAV: NavItem[] = [
     icon: Calendar,
   },
   {
+<<<<<<< HEAD
     path: '/messages',
     title: 'Mesajlar',
     icon: MessageSquare,
   },
   {
+=======
+>>>>>>> eski/main
     path: '/profile',
     title: 'Profilim',
     icon: User,
@@ -135,6 +149,14 @@ export const TEACHER_NAV: NavItem[] = [
     icon: LayoutDashboard,
   },
   {
+<<<<<<< HEAD
+=======
+    path: '/teacher/education-videos',
+    title: 'Eğitim Videoları',
+    icon: Video,
+  },
+  {
+>>>>>>> eski/main
     path: '/teacher/courses',
     title: 'Kurs Yönetimi',
     icon: BookOpen,
@@ -150,6 +172,14 @@ export const TEACHER_NAV: NavItem[] = [
     icon: FileQuestion,
   },
   {
+<<<<<<< HEAD
+=======
+    path: '/teacher/quizzes',
+    title: 'Quiz Yönetimi',
+    icon: FileQuestion,
+  },
+  {
+>>>>>>> eski/main
     path: '/live-classes/start',
     title: 'Canlı Ders Başlat',
     icon: Video,
@@ -171,11 +201,14 @@ export const TEACHER_NAV: NavItem[] = [
     permissions: [Permission.REPORTS_VIEW],
   },
   {
+<<<<<<< HEAD
     path: '/messages',
     title: 'Mesajlar',
     icon: MessageSquare,
   },
   {
+=======
+>>>>>>> eski/main
     path: '/profile',
     title: 'Profilim',
     icon: User,
@@ -238,11 +271,14 @@ export const ADMIN_NAV: NavItem[] = [
     ],
   },
   {
+<<<<<<< HEAD
     path: '/notifications',
     title: 'Bildirimler',
     icon: Bell,
   },
   {
+=======
+>>>>>>> eski/main
     path: '/admin/settings',
     title: 'Ayarlar',
     icon: Settings,
@@ -266,6 +302,7 @@ export const SUPER_ADMIN_NAV: NavItem[] = [
   },
   {
     path: '/super-admin/organizations',
+<<<<<<< HEAD
     title: 'Kurum Yönetimi',
     icon: Building2,
     permissions: [Permission.SYSTEM_CONFIG],
@@ -293,12 +330,34 @@ export const SUPER_ADMIN_NAV: NavItem[] = [
     title: 'Sınavlar',
     icon: FileQuestion,
     permissions: [Permission.EXAMS_MANAGE],
+=======
+    title: 'Kurumlar',
+    icon: Building2,
+  },
+  {
+    path: '/education-videos',
+    title: 'Eğitim Videoları',
+    icon: BookOpen,
+  },
+  {
+    path: '/super-admin/exams',
+    title: 'Sınav Yönetimi',
+    icon: FileQuestion,
+  },
+  {
+    path: '/super-admin/quizzes',
+    title: 'Quiz Yönetimi',
+    icon: FileQuestion,
+>>>>>>> eski/main
   },
   {
     path: '/admin/reports',
     title: 'Raporlar',
     icon: BarChart3,
+<<<<<<< HEAD
     permissions: [Permission.REPORTS_VIEW],
+=======
+>>>>>>> eski/main
   },
   {
     path: '/admin/ai',
@@ -328,6 +387,7 @@ export const SUPER_ADMIN_NAV: NavItem[] = [
     ],
   },
   {
+<<<<<<< HEAD
     path: '/notifications',
     title: 'Bildirimler',
     icon: Bell,
@@ -337,6 +397,11 @@ export const SUPER_ADMIN_NAV: NavItem[] = [
     title: 'Ayarlar',
     icon: Settings,
     permissions: [Permission.SYSTEM_CONFIG],
+=======
+    path: '/admin/settings',
+    title: 'Ayarlar',
+    icon: Settings,
+>>>>>>> eski/main
   },
   {
     path: '/profile',

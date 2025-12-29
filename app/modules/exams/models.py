@@ -33,11 +33,40 @@ class ExamStatus(enum.Enum):
     ARCHIVED = 'archived'
 
 
+class ExamOwnerType(enum.Enum):
+    """Sınav sahibi tipi."""
+    SYSTEM = 'system'  # Super Admin tarafından eklenen - tüm kurumlarda görünür
+    TEACHER = 'teacher'  # Öğretmen tarafından eklenen - sadece kendi kurumunda görünür
+
+
+class GradeLevel(enum.Enum):
+    """Sınıf/kademe seviyesi."""
+    GRADE_1 = '1'
+    GRADE_2 = '2'
+    GRADE_3 = '3'
+    GRADE_4 = '4'
+    GRADE_5 = '5'
+    GRADE_6 = '6'
+    GRADE_7 = '7'
+    GRADE_8 = '8'
+    GRADE_9 = '9'
+    GRADE_10 = '10'
+    GRADE_11 = '11'
+    GRADE_12 = '12'
+    GRADUATE = 'mezun'
+    TYT = 'tyt'
+    AYT = 'ayt'
+
+
 class Exam(BaseModel, SoftDeleteMixin):
     """
     Sınav modeli.
     
     Kurslar için sınavlar.
+    
+    Erişim kuralları:
+    - owner_type=SYSTEM: Tüm kurumlarda görünür (Super Admin ekler)
+    - owner_type=TEACHER: Sadece belirtilen kurumda görünür
     """
     
     __tablename__ = 'exams'
@@ -61,8 +90,25 @@ class Exam(BaseModel, SoftDeleteMixin):
         index=True
     )
     
+    # Sahiplik ve kurum
+    owner_type = Column(
+        Enum(ExamOwnerType),
+        default=ExamOwnerType.TEACHER,
+        nullable=False,
+        index=True
+    )
+    organization_id = Column(Integer, ForeignKey('organizations.id'), nullable=True, index=True)
+    organization = relationship('Organization', backref='exams')
+    
+    # Kademe/Sınıf seviyesi
+    grade_level = Column(
+        Enum(GradeLevel),
+        nullable=True,
+        index=True
+    )
+    
     # İlişkiler
-    course_id = Column(Integer, ForeignKey('courses.id'), nullable=False, index=True)
+    course_id = Column(Integer, ForeignKey('courses.id'), nullable=True, index=True)
     topic_id = Column(Integer, ForeignKey('topics.id'), nullable=True, index=True)
     created_by = Column(Integer, ForeignKey('users.id'), nullable=False)
     
@@ -111,11 +157,24 @@ class Exam(BaseModel, SoftDeleteMixin):
         
         return True
     
+    @property
+    def is_system_exam(self) -> bool:
+        """Sistem sınavı mı (Super Admin tarafından eklenmiş)?"""
+        return self.owner_type == ExamOwnerType.SYSTEM
+    
     def to_dict(self, exclude: List[str] = None) -> dict:
         data = super().to_dict(exclude=exclude)
         data['exam_type'] = self.exam_type.value if self.exam_type else None
         data['status'] = self.status.value if self.status else None
+        data['owner_type'] = self.owner_type.value if self.owner_type else None
+        data['grade_level'] = self.grade_level.value if self.grade_level else None
         data['is_available'] = self.is_available
+        data['is_system_exam'] = self.is_system_exam
+        data['organization_id'] = self.organization_id
+        if self.organization:
+            data['organization_name'] = self.organization.name
+        if self.creator:
+            data['creator_name'] = f"{self.creator.first_name} {self.creator.last_name}"
         return data
 
 

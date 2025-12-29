@@ -293,6 +293,125 @@ class OrganizationService:
         return users, total
     
     @staticmethod
+    def create_user_in_organization(
+        org_id: int,
+        email: str,
+        password: str,
+        first_name: str,
+        last_name: str,
+        phone: Optional[str] = None,
+        role: str = 'student',
+        is_active: bool = True,
+        is_verified: bool = True
+    ) -> User:
+        """
+        Kurumda yeni kullanıcı oluştur.
+        
+        Args:
+            org_id: Kurum ID
+            email: Kullanıcı email
+            password: Şifre
+            first_name: Ad
+            last_name: Soyad
+            phone: Telefon
+            role: Rol (student, teacher, admin)
+            is_active: Aktif mi
+            is_verified: Doğrulanmış mı
+        """
+        org = OrganizationService.get_by_id(org_id)
+        
+        # Check quota
+        if not org.can_add_user(role):
+            raise QuotaExceededError(f'{role} kotası doldu')
+        
+        # Check if email already exists
+        existing_user = User.query.filter_by(email=email, is_deleted=False).first()
+        if existing_user:
+            raise ConflictError('Bu email adresi zaten kullanımda')
+        
+        # Get role object
+        role_obj = Role.query.filter_by(name=role).first()
+        if not role_obj:
+            raise ValidationError(f'Geçersiz rol: {role}')
+        
+        # Create user
+        user = User(
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+            phone=phone,
+            role_id=role_obj.id,
+            organization_id=org_id,
+            is_active=is_active,
+            is_verified=is_verified
+        )
+        user.set_password(password)
+        
+        # Increment organization user count
+        org.increment_user_count(role)
+        
+        db.session.add(user)
+        db.session.commit()
+        
+        return user
+    
+    @staticmethod
+    def update_user_in_organization(
+        org_id: int,
+        user_id: int,
+        data: Dict[str, Any]
+    ) -> User:
+        """
+        Kurumdaki kullanıcıyı güncelle.
+        
+        Args:
+            org_id: Kurum ID
+            user_id: Kullanıcı ID
+            data: Güncellenecek veriler
+        """
+        org = OrganizationService.get_by_id(org_id)
+        user = User.query.get(user_id)
+        
+        if not user:
+            raise NotFoundError('Kullanıcı bulunamadı')
+        
+        if user.organization_id != org_id:
+            raise ForbiddenError('Kullanıcı bu kuruma ait değil')
+        
+        # Get old role for quota update
+        old_role = user.role.name if user.role else 'student'
+        
+        # Update basic fields
+        updatable_fields = ['email', 'first_name', 'last_name', 'phone', 'is_active']
+        for field in updatable_fields:
+            if field in data:
+                setattr(user, field, data[field])
+        
+        # Update role if changed
+        if 'role' in data and data['role'] != old_role:
+            new_role = data['role']
+            
+            # Check quota for new role
+            if not org.can_add_user(new_role):
+                raise QuotaExceededError(f'{new_role} kotası doldu')
+            
+            # Get role object
+            role_obj = Role.query.filter_by(name=new_role).first()
+            if not role_obj:
+                raise ValidationError(f'Geçersiz rol: {new_role}')
+            
+            # Update counts
+            org.decrement_user_count(old_role)
+            org.increment_user_count(new_role)
+            
+            user.role_id = role_obj.id
+        
+        user.updated_at = datetime.utcnow()
+        db.session.commit()
+        
+        return user
+    
+    @staticmethod
     def get_organization_stats(org_id: int) -> Dict[str, Any]:
         """Kurum istatistiklerini getir."""
         org = OrganizationService.get_by_id(org_id)

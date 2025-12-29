@@ -93,7 +93,11 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.getenv(
         'DATABASE_URL',
+<<<<<<< HEAD
         "sqlite:///data.db"
+=======
+        'postgresql://postgres:password@localhost:5432/student_coaching'
+>>>>>>> eski/main
     )
     # SQL Echo kapalı - performans için (debug gerekirse True yapın)
     SQLALCHEMY_ECHO = os.getenv('SQLALCHEMY_ECHO', 'False').lower() == 'true'
@@ -123,7 +127,11 @@ class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.getenv(
         'DATABASE_TEST_URL',
+<<<<<<< HEAD
         'sqlite:///data.db'
+=======
+        'postgresql://postgres:password@localhost:5432/student_coaching_test'
+>>>>>>> eski/main
     )
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(seconds=5)
     RATELIMIT_ENABLED = False
@@ -139,7 +147,11 @@ class ProductionConfig(Config):
     """Production configuration."""
     
     DEBUG = False
+<<<<<<< HEAD
     SQLALCHEMY_DATABASE_URI = "sqlite:///instance/data.db"
+=======
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
+>>>>>>> eski/main
     
     # Production-specific settings
     SQLALCHEMY_ENGINE_OPTIONS = {
@@ -172,4 +184,3 @@ def get_config():
     """Get configuration based on environment."""
     env = os.getenv('FLASK_ENV', 'development')
     return config.get(env, config['default'])
-

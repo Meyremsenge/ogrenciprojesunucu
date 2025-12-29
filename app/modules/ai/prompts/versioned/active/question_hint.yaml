@@ -45,8 +45,8 @@ user_prompt: 'Aşağıdaki soru için öğrenciye yönlendirici bir ipucu ver:
   '
 description: Öğrenciye soru çözümü için yönlendirici ipucu verir
 author: migration
-created_at: '2025-12-29T16:33:58.545556'
-updated_at: '2025-12-29T16:33:58.592215'
+created_at: '2025-12-29T17:26:47.998113'
+updated_at: '2025-12-29T17:26:48.023511'
 max_tokens: 200
 temperature: 0.7
 required_variables:

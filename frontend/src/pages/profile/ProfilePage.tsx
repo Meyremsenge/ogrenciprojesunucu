@@ -15,7 +15,10 @@ import {
   Camera,
   Save,
   Shield,
+<<<<<<< HEAD
   Bell,
+=======
+>>>>>>> eski/main
   Key,
   LogOut,
   Loader2,
@@ -29,7 +32,10 @@ import { getMyProfile, updateMyProfile, changePassword, uploadAvatar } from '@/s
 const TABS = [
   { key: 'profile', label: 'Profil Bilgileri', icon: User },
   { key: 'security', label: 'Güvenlik', icon: Shield },
+<<<<<<< HEAD
   { key: 'notifications', label: 'Bildirim Tercihleri', icon: Bell },
+=======
+>>>>>>> eski/main
 ];
 
 export default function ProfilePage() {
@@ -492,6 +498,7 @@ export default function ProfilePage() {
                 </div>
               </div>
             )}
+<<<<<<< HEAD
 
             {activeTab === 'notifications' && (
               <div className="space-y-6">
@@ -521,6 +528,8 @@ export default function ProfilePage() {
                 </div>
               </div>
             )}
+=======
+>>>>>>> eski/main
           </motion.div>
         </div>
       </div>

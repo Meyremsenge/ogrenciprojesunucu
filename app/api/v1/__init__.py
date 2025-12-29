@@ -9,8 +9,6 @@ Bu dosya iki yaklaşımı destekler:
 from flask import Blueprint
 from flask_restx import Api
 
-
-
 api_v1_bp = Blueprint('api_v1', __name__)
 
 # Initialize Flask-RESTX API
@@ -53,8 +51,15 @@ try:
     api.add_namespace(exams_ns, path='/exams')
     api.add_namespace(evaluations_ns, path='/evaluations')
     api.add_namespace(live_sessions_ns, path='/live-sessions')
+<<<<<<< HEAD
 except ImportError:
     pass  # Yeni modül yapısı kullanılıyor
+=======
+except ImportError as e:
+    import sys
+    print(f"WARNING: Flask-RESTX namespace import failed: {e}", file=sys.stderr)
+    print("Some API endpoints may not be available. Install missing dependencies.", file=sys.stderr)
+>>>>>>> eski/main
 
 # =============================================================================
 # Modüler Blueprint Yapısı (yeni yapı)
@@ -84,10 +89,13 @@ def register_module_blueprints(app):
     # Organizations modülünü kaydet (Multi-tenant kurum yönetimi)
     from app.modules.organizations import organizations_bp
     app.register_blueprint(organizations_bp)  # URL prefix routes.py'de tanımlı
+<<<<<<< HEAD
 
     # Students modülünü kaydet
     from app.modules.students import students_bp
     app.register_blueprint(students_bp)  # URL prefix students routes.py'de
+=======
+>>>>>>> eski/main
     
     # Video AI modülünü kaydet (YouTube embed + AI danışman)
     # Lazy import ile circular import önlenir
@@ -102,6 +110,17 @@ def register_module_blueprints(app):
     from app.modules.live_classes import live_classes_bp
     app.register_blueprint(live_classes_bp, url_prefix='/api/v1/live-classes')
     
+<<<<<<< HEAD
+=======
+    # Education Videos modülünü kaydet (YouTube tabanlı eğitim videoları)
+    from app.modules.education_videos import education_videos_bp
+    app.register_blueprint(education_videos_bp, url_prefix='/api/v1/education-videos')
+    
+    # Goals modülünü kaydet (Öğrenci hedefleri)
+    from app.modules.goals import goals_bp
+    app.register_blueprint(goals_bp, url_prefix='/api/v1/goals')
+    
+>>>>>>> eski/main
     app.logger.info('AI module blueprint registered at /api/v1/ai')
     app.logger.info('Admin module blueprint registered at /api/v1/admin')
     app.logger.info('Logs module blueprint registered at /api/v1/logs')
@@ -109,3 +128,8 @@ def register_module_blueprints(app):
     app.logger.info('Video AI module blueprint registered at /api/v1')
     app.logger.info('Exams module blueprint registered at /api/v1/exams (NO AI)')
     app.logger.info('Live Classes module registered at /api/v1/live-classes (POST-SESSION AI ONLY)')
+<<<<<<< HEAD
+=======
+    app.logger.info('Education Videos module registered at /api/v1/education-videos')
+    app.logger.info('Goals module registered at /api/v1/goals')
+>>>>>>> eski/main

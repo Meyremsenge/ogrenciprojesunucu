@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-# ogrenciprojesunucu
 # Öğrenci Koçluk Sistemi
 
 Ticari nitelikte, Flask ve PostgreSQL kullanılarak geliştirilmiş bir öğrenci koçluk uygulaması.
@@ -212,4 +210,7 @@ Bu proje ticari amaçlıdır. Tüm hakları saklıdır.
 ---
 
 © 2024 Öğrenci Koçluk Sistemi
+<<<<<<< HEAD
 >>>>>>> cd77038 (Sunucudaki mevcut calisan versiyon)
+=======
+>>>>>>> eski/main

@@ -9,6 +9,7 @@ from app.modules.exams.models import (
     Exam,
     ExamStatus,
     ExamType,
+    ExamOwnerType,
     ExamAttempt,
     AttemptStatus,
     AttemptAnswer,
@@ -27,6 +28,10 @@ __all__ = [
     'Exam',
     'ExamStatus',
     'ExamType',
+<<<<<<< HEAD
+=======
+    'ExamOwnerType',
+>>>>>>> eski/main
     'ExamAttempt',
     'AttemptStatus',
     'AttemptAnswer',

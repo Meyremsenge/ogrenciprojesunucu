@@ -5,7 +5,10 @@
 
 import { Link, useNavigate } from 'react-router-dom';
 import {
+<<<<<<< HEAD
   Bell,
+=======
+>>>>>>> eski/main
   Menu,
   Search,
   Settings,
@@ -28,7 +31,11 @@ export function Header() {
   const user = useUser();
   const theme = useTheme();
   const { logout } = useAuthStore();
+<<<<<<< HEAD
   const { toggleSidebar, setTheme, notificationCount } = useUIStore();
+=======
+  const { toggleSidebar, setTheme } = useUIStore();
+>>>>>>> eski/main
   
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -98,6 +105,7 @@ export function Header() {
             )}
           </button>
 
+<<<<<<< HEAD
           {/* Notifications */}
           <Link
             to="/notifications"
@@ -111,6 +119,8 @@ export function Header() {
             )}
           </Link>
 
+=======
+>>>>>>> eski/main
           {/* User Menu */}
           <div className="relative">
             <button

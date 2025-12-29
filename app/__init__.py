@@ -34,6 +34,8 @@ def create_app(config_class=None):
     app.config.from_object(config_class)
     
 
+    app.config.from_object(config_class)
+    
     # Validate production environment variables
     _validate_production_config(app)
     

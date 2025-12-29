@@ -127,7 +127,11 @@ export async function getOrganizations(params?: {
   search?: string;
   is_active?: boolean;
 }) {
+<<<<<<< HEAD
   const response = await api.get('/api/v1/organizations', { params });
+=======
+  const response = await api.get('/organizations', { params });
+>>>>>>> eski/main
   return response.data;
 }
 
@@ -135,7 +139,11 @@ export async function getOrganizations(params?: {
  * Kurum detayı getir
  */
 export async function getOrganization(orgId: number) {
+<<<<<<< HEAD
   const response = await api.get(`/api/v1/organizations/${orgId}`);
+=======
+  const response = await api.get(`/organizations/${orgId}`);
+>>>>>>> eski/main
   return response.data;
 }
 
@@ -143,7 +151,11 @@ export async function getOrganization(orgId: number) {
  * Yeni kurum oluştur
  */
 export async function createOrganization(data: CreateOrganizationDTO) {
+<<<<<<< HEAD
   const response = await api.post('/api/v1/organizations', data);
+=======
+  const response = await api.post('/organizations', data);
+>>>>>>> eski/main
   return response.data;
 }
 
@@ -151,7 +163,11 @@ export async function createOrganization(data: CreateOrganizationDTO) {
  * Kurum güncelle
  */
 export async function updateOrganization(orgId: number, data: UpdateOrganizationDTO) {
+<<<<<<< HEAD
   const response = await api.put(`/api/v1/organizations/${orgId}`, data);
+=======
+  const response = await api.put(`/organizations/${orgId}`, data);
+>>>>>>> eski/main
   return response.data;
 }
 
@@ -159,7 +175,11 @@ export async function updateOrganization(orgId: number, data: UpdateOrganization
  * Kurum sil
  */
 export async function deleteOrganization(orgId: number, hard?: boolean) {
+<<<<<<< HEAD
   const response = await api.delete(`/api/v1/organizations/${orgId}`, {
+=======
+  const response = await api.delete(`/organizations/${orgId}`, {
+>>>>>>> eski/main
     params: { hard },
   });
   return response.data;
@@ -169,7 +189,11 @@ export async function deleteOrganization(orgId: number, hard?: boolean) {
  * Kurum istatistikleri
  */
 export async function getOrganizationStats(orgId: number): Promise<OrganizationStats> {
+<<<<<<< HEAD
   const response = await api.get(`/api/v1/organizations/${orgId}/stats`);
+=======
+  const response = await api.get(`/organizations/${orgId}/stats`);
+>>>>>>> eski/main
   return response.data.data;
 }
 
@@ -177,7 +201,11 @@ export async function getOrganizationStats(orgId: number): Promise<OrganizationS
  * Kurumlar dashboard özeti
  */
 export async function getOrganizationsDashboard(): Promise<OrganizationDashboard> {
+<<<<<<< HEAD
   const response = await api.get('/api/v1/organizations/dashboard');
+=======
+  const response = await api.get('/organizations/dashboard');
+>>>>>>> eski/main
   return response.data.data;
 }
 
@@ -195,7 +223,11 @@ export async function getOrganizationUsers(orgId: number, params?: {
   search?: string;
   is_active?: boolean;
 }) {
+<<<<<<< HEAD
   const response = await api.get(`/api/v1/organizations/${orgId}/users`, { params });
+=======
+  const response = await api.get(`/organizations/${orgId}/users`, { params });
+>>>>>>> eski/main
   return response.data;
 }
 
@@ -203,7 +235,51 @@ export async function getOrganizationUsers(orgId: number, params?: {
  * Kullanıcıyı kuruma ekle
  */
 export async function addUserToOrganization(orgId: number, userId: number) {
+<<<<<<< HEAD
   const response = await api.post(`/api/v1/organizations/${orgId}/users/${userId}`);
+=======
+  const response = await api.post(`/organizations/${orgId}/users/${userId}`);
+  return response.data;
+}
+
+/**
+ * Kuruma yeni kullanıcı oluştur
+ */
+export async function createUserInOrganization(orgId: number, data: {
+  email: string;
+  password: string;
+  first_name: string;
+  last_name: string;
+  phone?: string;
+  role: string;
+  is_active?: boolean;
+  is_verified?: boolean;
+}) {
+  const response = await api.post(`/organizations/${orgId}/users`, data);
+  return response.data;
+}
+
+/**
+ * Kurum kullanıcısını güncelle
+ */
+export async function updateOrganizationUser(orgId: number, userId: number, data: {
+  email?: string;
+  first_name?: string;
+  last_name?: string;
+  phone?: string;
+  role?: string;
+  is_active?: boolean;
+}) {
+  const response = await api.put(`/organizations/${orgId}/users/${userId}`, data);
+  return response.data;
+}
+
+/**
+ * Kurum kullanıcısını sil
+ */
+export async function deleteOrganizationUser(orgId: number, userId: number) {
+  const response = await api.delete(`/organizations/${orgId}/users/${userId}`);
+>>>>>>> eski/main
   return response.data;
 }
 
@@ -211,7 +287,11 @@ export async function addUserToOrganization(orgId: number, userId: number) {
  * Kullanıcıyı kurumdan çıkar
  */
 export async function removeUserFromOrganization(orgId: number, userId: number) {
+<<<<<<< HEAD
   const response = await api.delete(`/api/v1/organizations/${orgId}/users/${userId}`);
+=======
+  const response = await api.delete(`/organizations/${orgId}/users/${userId}`);
+>>>>>>> eski/main
   return response.data;
 }
 
@@ -223,7 +303,11 @@ export async function removeUserFromOrganization(orgId: number, userId: number) 
  * Bekleyen davetleri listele
  */
 export async function getOrganizationInvitations(orgId: number) {
+<<<<<<< HEAD
   const response = await api.get(`/api/v1/organizations/${orgId}/invitations`);
+=======
+  const response = await api.get(`/organizations/${orgId}/invitations`);
+>>>>>>> eski/main
   return response.data;
 }
 
@@ -231,7 +315,11 @@ export async function getOrganizationInvitations(orgId: number) {
  * Kurum daveti oluştur
  */
 export async function createInvitation(orgId: number, data: CreateInvitationDTO) {
+<<<<<<< HEAD
   const response = await api.post(`/api/v1/organizations/${orgId}/invitations`, data);
+=======
+  const response = await api.post(`/organizations/${orgId}/invitations`, data);
+>>>>>>> eski/main
   return response.data;
 }
 
@@ -239,7 +327,11 @@ export async function createInvitation(orgId: number, data: CreateInvitationDTO)
  * Daveti iptal et
  */
 export async function cancelInvitation(invitationId: number) {
+<<<<<<< HEAD
   const response = await api.delete(`/api/v1/organizations/invitations/${invitationId}`);
+=======
+  const response = await api.delete(`/organizations/invitations/${invitationId}`);
+>>>>>>> eski/main
   return response.data;
 }
 
@@ -247,7 +339,11 @@ export async function cancelInvitation(invitationId: number) {
  * Daveti kabul et
  */
 export async function acceptInvitation(token: string) {
+<<<<<<< HEAD
   const response = await api.post('/api/v1/organizations/invitations/accept', { token });
+=======
+  const response = await api.post('/organizations/invitations/accept', { token });
+>>>>>>> eski/main
   return response.data;
 }
 
@@ -259,7 +355,11 @@ export async function acceptInvitation(token: string) {
  * Abonelik güncelle
  */
 export async function updateSubscription(orgId: number, plan: string, durationMonths?: number) {
+<<<<<<< HEAD
   const response = await api.put(`/api/v1/organizations/${orgId}/subscription`, {
+=======
+  const response = await api.put(`/organizations/${orgId}/subscription`, {
+>>>>>>> eski/main
     plan,
     duration_months: durationMonths || 12,
   });
@@ -274,7 +374,11 @@ export async function updateSubscription(orgId: number, plan: string, durationMo
  * Mevcut kullanıcının kurumunu getir
  */
 export async function getMyOrganization() {
+<<<<<<< HEAD
   const response = await api.get('/api/v1/organizations/my-organization');
+=======
+  const response = await api.get('/organizations/my-organization');
+>>>>>>> eski/main
   return response.data;
 }
 
@@ -287,7 +391,11 @@ export async function getMyOrganizationUsers(params?: {
   role?: string;
   search?: string;
 }) {
+<<<<<<< HEAD
   const response = await api.get('/api/v1/organizations/my-organization/users', { params });
+=======
+  const response = await api.get('/organizations/my-organization/users', { params });
+>>>>>>> eski/main
   return response.data;
 }
 

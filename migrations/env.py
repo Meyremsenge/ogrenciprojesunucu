@@ -66,12 +66,70 @@ def run_migrations_offline():
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url, target_metadata=get_metadata(), literal_binds=True
+=======
+"""
+Alembic migration environment configuration.
+"""
+
+from logging.config import fileConfig
+from sqlalchemy import engine_from_config, pool
+from alembic import context
+import os
+import sys
+
+# Add project root to path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# Import Flask app and models
+from app import create_app
+from app.extensions import db
+from app.models import *  # noqa: Import all models
+
+# Alembic Config object
+config = context.config
+
+# Interpret the config file for Python logging
+# Get the absolute path to alembic.ini
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+alembic_ini = os.path.join(project_root, 'alembic.ini')
+if os.path.exists(alembic_ini):
+    fileConfig(alembic_ini)
+
+# Create Flask app for configuration
+flask_app = create_app()
+
+# Get database URL from Flask config
+config.set_main_option('sqlalchemy.url', flask_app.config['SQLALCHEMY_DATABASE_URI'])
+
+# Target metadata for autogenerate
+target_metadata = db.metadata
+
+
+def run_migrations_offline() -> None:
+    """
+    Run migrations in 'offline' mode.
+    
+    This configures the context with just a URL
+    and not an Engine, though an Engine is acceptable
+    here as well. By skipping the Engine creation
+    we don't even need a DBAPI to be available.
+    """
+    url = config.get_main_option("sqlalchemy.url")
+    context.configure(
+        url=url,
+        target_metadata=target_metadata,
+        literal_binds=True,
+        dialect_opts={"paramstyle": "named"},
+        compare_type=True,
+        compare_server_default=True,
+>>>>>>> eski/main
     )
 
     with context.begin_transaction():
         context.run_migrations()
 
 
+<<<<<<< HEAD
 def run_migrations_online():
     """Run migrations in 'online' mode.
 
@@ -95,12 +153,32 @@ def run_migrations_online():
         conf_args["process_revision_directives"] = process_revision_directives
 
     connectable = get_engine()
+=======
+def run_migrations_online() -> None:
+    """
+    Run migrations in 'online' mode.
+    
+    In this scenario we need to create an Engine
+    and associate a connection with the context.
+    """
+    connectable = engine_from_config(
+        config.get_section(config.config_ini_section, {}),
+        prefix="sqlalchemy.",
+        poolclass=pool.NullPool,
+    )
+>>>>>>> eski/main
 
     with connectable.connect() as connection:
         context.configure(
             connection=connection,
+<<<<<<< HEAD
             target_metadata=get_metadata(),
             **conf_args
+=======
+            target_metadata=target_metadata,
+            compare_type=True,
+            compare_server_default=True,
+>>>>>>> eski/main
         )
 
         with context.begin_transaction():

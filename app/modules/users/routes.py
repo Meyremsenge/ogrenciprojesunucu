@@ -29,7 +29,7 @@ from app.core.decorators import require_role, validate_json, handle_exceptions
 from app.core.pagination import PaginationParams
 
 
-@users_bp.route('/', methods=['GET'])
+@users_bp.route('', methods=['GET'])
 @jwt_required()
 @require_role('admin', 'super_admin')
 @handle_exceptions
@@ -120,7 +120,7 @@ def get_user(user_id: int):
     return success_response(data={'user': user.to_dict()})
 
 
-@users_bp.route('/', methods=['POST'])
+@users_bp.route('', methods=['POST'])
 @jwt_required()
 @require_role('admin', 'super_admin')
 @handle_exceptions

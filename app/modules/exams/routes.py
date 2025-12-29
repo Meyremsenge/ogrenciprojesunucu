@@ -5,14 +5,19 @@ Sınav yönetimi endpoint'leri.
 
 ⚠️ KRİTİK: BU MODÜLDE AI KULLANILMAZ ⚠️
 Tüm değerlendirmeler deterministik kurallar veya öğretmen tarafından yapılır.
+
+Erişim Kuralları:
+- Super Admin: Sistem sınavı ekler (owner_type=SYSTEM) → TÜM kurumlarda görünür
+- Öğretmen: Kurum sınavı ekler (owner_type=TEACHER) → SADECE kendi kurumunda görünür
 """
 
 from flask import request, g
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
+from app.extensions import db
 from app.modules.exams import exams_bp
 from app.modules.exams.services import ExamService, QuestionService, AttemptService
-from app.modules.exams.models import Exam, AttemptStatus, QuestionType
+from app.modules.exams.models import Exam, ExamOwnerType, ExamStatus, AttemptStatus, QuestionType, GradeLevel, ExamType
 from app.modules.exams.schemas import (
     ExamSchema,
     ExamCreateSchema,
@@ -20,7 +25,8 @@ from app.modules.exams.schemas import (
     AttemptAnswerSchema,
     AttemptResultSchema
 )
-from app.core.responses import success_response, created_response, no_content_response, paginated_response
+from app.models.user import User
+from app.core.responses import success_response, created_response, no_content_response, paginated_response, error_response
 from app.core.decorators import require_role, validate_json, handle_exceptions
 from app.core.pagination import PaginationParams
 
@@ -33,21 +39,85 @@ from app.core.pagination import PaginationParams
 @jwt_required()
 @handle_exceptions
 def list_exams():
-    """Sınav listesi."""
+    """
+    Sınav listesi.
+    
+    Erişim kuralları:
+    - Super Admin: Tüm sınavları görür
+    - Öğretmen/Öğrenci: Sistem sınavları + kendi kurumunun sınavları
+    """
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+    user_role = user.role.name if user and user.role else None
+    user_org_id = user.organization_id if user else None
+    
     params = PaginationParams.from_request()
     course_id = request.args.get('course_id', type=int)
+    exam_type = request.args.get('exam_type')
+    status = request.args.get('status')
+    owner_type = request.args.get('owner_type')
+    grade_level = request.args.get('grade_level')
+    search = request.args.get('search')
     
-    result = ExamService.get_paginated(
-        page=params.page,
-        per_page=params.per_page,
-        course_id=course_id
-    )
+    # Query başlat
+    query = Exam.query.filter(Exam.is_deleted == False)
+    
+    # Erişim kontrolü - Super Admin değilse kısıtla
+    if user_role != 'super_admin':
+        query = query.filter(
+            db.or_(
+                # Sistem sınavları - herkes görebilir
+                Exam.owner_type == ExamOwnerType.SYSTEM,
+                # Kendi kurumunun öğretmen sınavları
+                db.and_(
+                    Exam.owner_type == ExamOwnerType.TEACHER,
+                    Exam.organization_id == user_org_id
+                )
+            )
+        )
+    
+    # Filtreler
+    if course_id:
+        query = query.filter(Exam.course_id == course_id)
+    
+    if exam_type:
+        query = query.filter(Exam.exam_type == exam_type)
+    
+    if status:
+        query = query.filter(Exam.status == status)
+    
+    if owner_type:
+        try:
+            query = query.filter(Exam.owner_type == ExamOwnerType(owner_type))
+        except ValueError:
+            pass
+    
+    if grade_level:
+        try:
+            query = query.filter(Exam.grade_level == GradeLevel(grade_level))
+        except ValueError:
+            pass
+    
+    if search:
+        search_term = f'%{search}%'
+        query = query.filter(
+            db.or_(
+                Exam.title.ilike(search_term),
+                Exam.description.ilike(search_term)
+            )
+        )
+    
+    # Sıralama
+    query = query.order_by(Exam.created_at.desc())
+    
+    # Sayfalama
+    pagination = query.paginate(page=params.page, per_page=params.per_page, error_out=False)
     
     return paginated_response(
-        items=[e.to_dict() for e in result.items],
-        page=result.page,
-        per_page=result.per_page,
-        total=result.total
+        items=[e.to_dict() for e in pagination.items],
+        page=params.page,
+        per_page=params.per_page,
+        total=pagination.total
     )
 
 
@@ -55,11 +125,33 @@ def list_exams():
 @jwt_required()
 @handle_exceptions
 def get_exam(exam_id: int):
-    """Sınav detayı."""
-    user_id = get_jwt_identity()
-    exam = ExamService.get_with_questions(exam_id, user_id)
+    """
+    Sınav detayı.
     
-    return success_response(data={'exam': exam})
+    Erişim kontrolü: Sistem sınavı veya kendi kurumunun sınavı
+    """
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+    user_role = user.role.name if user and user.role else None
+    user_org_id = user.organization_id if user else None
+    
+    exam = Exam.query.filter(
+        Exam.id == exam_id,
+        Exam.is_deleted == False
+    ).first()
+    
+    if not exam:
+        return error_response('Sınav bulunamadı', status_code=404)
+    
+    # Erişim kontrolü
+    if user_role != 'super_admin':
+        if exam.owner_type == ExamOwnerType.TEACHER and exam.organization_id != user_org_id:
+            return error_response('Bu sınava erişim yetkiniz yok', status_code=403)
+    
+    # Detaylı bilgi için service kullan
+    exam_data = ExamService.get_with_questions(exam_id, current_user_id)
+    
+    return success_response(data={'exam': exam_data})
 
 
 @exams_bp.route('', methods=['POST'])
@@ -68,16 +160,69 @@ def get_exam(exam_id: int):
 @handle_exceptions
 @validate_json(ExamCreateSchema)
 def create_exam():
-    """Yeni sınav oluştur."""
-    user_id = get_jwt_identity()
+    """
+    Yeni sınav oluştur.
+    
+    Super Admin: owner_type=SYSTEM (tüm kurumlarda görünür)
+    Öğretmen: owner_type=TEACHER (sadece kendi kurumunda görünür)
+    
+    Otomatik olarak ilgili sınıf seviyesindeki öğrencilere hedef atar.
+    """
+    from app.services.goal_service import GoalService
+    
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+    user_role = user.role.name if user and user.role else None
+    
     data = g.validated_data
-    data['created_by'] = user_id
+    data['created_by'] = current_user_id
+    
+    # Grade level değerini sakla (hedef atama için)
+    grade_level_str = data.get('grade_level')
+    
+    # Grade level dönüşümü
+    if 'grade_level' in data and data['grade_level']:
+        try:
+            data['grade_level'] = GradeLevel(data['grade_level'])
+        except ValueError:
+            return error_response('Geçersiz kademe/sınıf seviyesi', status_code=400)
+    
+    # Exam type dönüşümü
+    if 'exam_type' in data and data['exam_type']:
+        try:
+            data['exam_type'] = ExamType(data['exam_type'])
+        except ValueError:
+            return error_response('Geçersiz sınav tipi', status_code=400)
+    
+    # Owner type ve organization belirleme
+    if user_role == 'super_admin':
+        data['owner_type'] = ExamOwnerType.SYSTEM
+        data['organization_id'] = None
+    else:
+        data['owner_type'] = ExamOwnerType.TEACHER
+        data['organization_id'] = user.organization_id
     
     exam = ExamService.create(data)
     
+    # Quiz yayımlandıysa otomatik hedef ata
+    goal_result = None
+    if exam.status == ExamStatus.PUBLISHED and grade_level_str:
+        goal_result = GoalService.assign_exam_to_students(
+            exam_id=exam.id,
+            exam_title=exam.title,
+            grade_level=grade_level_str,
+            organization_id=data.get('organization_id'),
+            target_score=exam.pass_score or 60,
+            created_by=current_user_id
+        )
+    
+    response_data = {'exam': exam.to_dict()}
+    if goal_result:
+        response_data['goals_assigned'] = goal_result['assigned_count']
+    
     return created_response(
-        data={'exam': exam.to_dict()},
-        message='Sınav başarıyla oluşturuldu'
+        data=response_data,
+        message=f'Sınav başarıyla oluşturuldu' + (f' ve {goal_result["assigned_count"]} öğrenciye hedef atandı' if goal_result else '')
     )
 
 
@@ -86,11 +231,28 @@ def create_exam():
 @require_role('teacher', 'admin', 'super_admin')
 @handle_exceptions
 def update_exam(exam_id: int):
-    """Sınav güncelle."""
-    user_id = get_jwt_identity()
-    data = request.get_json()
+    """
+    Sınav güncelle.
     
-    exam = ExamService.update_exam(exam_id, data, user_id)
+    Erişim kontrolü: Kendi oluşturduğu veya kurumunun sınavını güncelleyebilir
+    """
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+    user_role = user.role.name if user and user.role else None
+    
+    exam = Exam.query.get(exam_id)
+    if not exam or exam.is_deleted:
+        return error_response('Sınav bulunamadı', status_code=404)
+    
+    # Erişim kontrolü
+    if user_role != 'super_admin':
+        if exam.owner_type == ExamOwnerType.SYSTEM:
+            return error_response('Sistem sınavlarını sadece Super Admin güncelleyebilir', status_code=403)
+        if exam.organization_id != user.organization_id:
+            return error_response('Bu sınavı güncelleme yetkiniz yok', status_code=403)
+    
+    data = request.get_json()
+    exam = ExamService.update_exam(exam_id, data, current_user_id)
     
     return success_response(
         data={'exam': exam.to_dict()},
@@ -100,10 +262,29 @@ def update_exam(exam_id: int):
 
 @exams_bp.route('/<int:exam_id>', methods=['DELETE'])
 @jwt_required()
-@require_role('admin', 'super_admin')
+@require_role('teacher', 'admin', 'super_admin')
 @handle_exceptions
 def delete_exam(exam_id: int):
-    """Sınav sil."""
+    """
+    Sınav sil.
+    
+    Erişim kontrolü: Kendi oluşturduğu veya kurumunun sınavını silebilir
+    """
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+    user_role = user.role.name if user and user.role else None
+    
+    exam = Exam.query.get(exam_id)
+    if not exam or exam.is_deleted:
+        return error_response('Sınav bulunamadı', status_code=404)
+    
+    # Erişim kontrolü
+    if user_role != 'super_admin':
+        if exam.owner_type == ExamOwnerType.SYSTEM:
+            return error_response('Sistem sınavlarını sadece Super Admin silebilir', status_code=403)
+        if exam.organization_id != user.organization_id:
+            return error_response('Bu sınavı silme yetkiniz yok', status_code=403)
+    
     ExamService.soft_delete(exam_id)
     return no_content_response()
 
@@ -113,13 +294,128 @@ def delete_exam(exam_id: int):
 @require_role('teacher', 'admin', 'super_admin')
 @handle_exceptions
 def publish_exam(exam_id: int):
-    """Sınavı yayınla."""
-    user_id = get_jwt_identity()
-    exam = ExamService.publish(exam_id, user_id)
+    """
+    Sınavı yayınla.
+    
+    Yayınlandığında otomatik olarak ilgili sınıf seviyesindeki öğrencilere hedef atar.
+    """
+    from app.services.goal_service import GoalService
+    
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+    user_role = user.role.name if user and user.role else None
+    
+    exam = Exam.query.get(exam_id)
+    if not exam or exam.is_deleted:
+        return error_response('Sınav bulunamadı', status_code=404)
+    
+    # Erişim kontrolü
+    if user_role != 'super_admin':
+        if exam.owner_type == ExamOwnerType.SYSTEM:
+            return error_response('Sistem sınavlarını sadece Super Admin yayınlayabilir', status_code=403)
+        if exam.organization_id != user.organization_id:
+            return error_response('Bu sınavı yayınlama yetkiniz yok', status_code=403)
+    
+    exam = ExamService.publish(exam_id, current_user_id)
+    
+    # Yayınlandığında öğrencilere hedef ata
+    goal_result = None
+    grade_level_str = exam.grade_level.value if exam.grade_level else None
+    if grade_level_str:
+        goal_result = GoalService.assign_exam_to_students(
+            exam_id=exam.id,
+            exam_title=exam.title,
+            grade_level=grade_level_str,
+            organization_id=exam.organization_id,
+            target_score=exam.pass_score or 60,
+            created_by=current_user_id
+        )
+    
+    response_data = {'exam': exam.to_dict()}
+    if goal_result:
+        response_data['goals_assigned'] = goal_result['assigned_count']
+    
+    return success_response(
+        data=response_data,
+        message=f'Sınav yayınlandı' + (f' ve {goal_result["assigned_count"]} öğrenciye hedef atandı' if goal_result else '')
+    )
+
+
+@exams_bp.route('/<int:exam_id>/unpublish', methods=['POST'])
+@jwt_required()
+@require_role('teacher', 'admin', 'super_admin')
+@handle_exceptions
+def unpublish_exam(exam_id: int):
+    """Sınavı yayından kaldır."""
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+    user_role = user.role.name if user and user.role else None
+    
+    exam = Exam.query.get(exam_id)
+    if not exam or exam.is_deleted:
+        return error_response('Sınav bulunamadı', status_code=404)
+    
+    # Erişim kontrolü
+    if user_role != 'super_admin':
+        if exam.owner_type == ExamOwnerType.SYSTEM:
+            return error_response('Sistem sınavlarını sadece Super Admin yayından kaldırabilir', status_code=403)
+        if exam.organization_id != user.organization_id:
+            return error_response('Bu sınavı yayından kaldırma yetkiniz yok', status_code=403)
+    
+    # Durumu taslak'a çevir
+    exam.status = ExamStatus.DRAFT
+    db.session.commit()
     
     return success_response(
         data={'exam': exam.to_dict()},
-        message='Sınav yayınlandı'
+        message='Sınav yayından kaldırıldı'
+    )
+
+
+@exams_bp.route('/<int:exam_id>/duplicate', methods=['POST'])
+@jwt_required()
+@require_role('teacher', 'admin', 'super_admin')
+@handle_exceptions
+def duplicate_exam(exam_id: int):
+    """Sınavı kopyala."""
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+    user_role = user.role.name if user and user.role else None
+    
+    exam = Exam.query.get(exam_id)
+    if not exam or exam.is_deleted:
+        return error_response('Sınav bulunamadı', status_code=404)
+    
+    # Erişim kontrolü - sınavı görebilen kopyalayabilir
+    if user_role != 'super_admin':
+        if exam.owner_type == ExamOwnerType.TEACHER and exam.organization_id != user.organization_id:
+            return error_response('Bu sınavı kopyalama yetkiniz yok', status_code=403)
+    
+    # Yeni sınav oluştur
+    new_exam = Exam(
+        title=f"{exam.title} (Kopya)",
+        description=exam.description,
+        instructions=exam.instructions,
+        exam_type=exam.exam_type,
+        status=ExamStatus.DRAFT,
+        duration_minutes=exam.duration_minutes,
+        pass_score=exam.pass_score,
+        max_attempts=exam.max_attempts,
+        shuffle_questions=exam.shuffle_questions,
+        shuffle_answers=exam.shuffle_answers,
+        show_answers_after=exam.show_answers_after,
+        grade_level=exam.grade_level,
+        created_by=current_user_id,
+        owner_type=ExamOwnerType.TEACHER if user_role != 'super_admin' else ExamOwnerType.SYSTEM,
+        organization_id=user.organization_id if user_role != 'super_admin' else None
+    )
+    
+    db.session.add(new_exam)
+    db.session.commit()
+    
+    return created_response(
+        data={'exam': new_exam.to_dict()},
+        message='Sınav kopyalandı'
     )
 
 

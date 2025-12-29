@@ -19,6 +19,7 @@ from app.modules.exams import exams_bp
 from app.modules.evaluations import evaluations_bp
 from app.modules.live_classes import live_classes_bp
 from app.modules.ai import ai_bp
+from app.modules.goals import goals_bp
 
 __all__ = [
     'auth_bp',
@@ -29,4 +30,5 @@ __all__ = [
     'evaluations_bp',
     'live_classes_bp',
     'ai_bp',
+    'goals_bp',
 ]

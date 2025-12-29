@@ -111,10 +111,17 @@ class Settings(BaseSettings):
     # ========================================
     # Connection String (12-Factor App style)
     DATABASE_URL: str = Field(
+<<<<<<< HEAD
         default="sqlite:///data.db"
     )
     DATABASE_TEST_URL: str = Field(
         default="sqlite:///data_test.db"
+=======
+        default="postgresql://postgres:password@localhost:5432/student_coaching"
+    )
+    DATABASE_TEST_URL: str = Field(
+        default="postgresql://postgres:password@localhost:5432/student_coaching_test"
+>>>>>>> eski/main
     )
     
     # Detailed connection (alternatif)

@@ -35,7 +35,15 @@ from app.models.ai_prompt import (
     AIPromptTemplate, AIPromptUsageLog, AIUsageSummary,
     AIDataRetentionPolicy, PromptTemplateStatus
 )
-from .student import Student
+from app.models.education_video import (
+    EducationVideo, VideoWatchHistory,
+    GradeLevel, EducationLevel, Subject, VideoOwnerType,
+    GRADE_LABELS, EDUCATION_LEVEL_LABELS, SUBJECT_LABELS
+)
+from app.models.goal import (
+    Goal, GoalAssignment, GoalType, GoalStatus
+)
+
 __all__ = [
     # Organization models (Multi-tenant)
     'Organization',
@@ -69,9 +77,17 @@ __all__ = [
     
     # Exam models
     'Exam',
+<<<<<<< HEAD
     'ExamQuestion',
     'ExamResult',
     'ExamAnswer',
+=======
+    'ExamStatus',
+    'ExamType',
+    'ExamAttempt',
+    'AttemptStatus',
+    'AttemptAnswer',
+>>>>>>> eski/main
     
     # Evaluation models
     'Evaluation',
@@ -127,4 +143,24 @@ __all__ = [
     'AIUsageSummary',
     'AIDataRetentionPolicy',
     'PromptTemplateStatus',
+<<<<<<< HEAD
+=======
+    
+    # Education Video models
+    'EducationVideo',
+    'VideoWatchHistory',
+    'GradeLevel',
+    'EducationLevel',
+    'Subject',
+    'VideoOwnerType',
+    'GRADE_LABELS',
+    'EDUCATION_LEVEL_LABELS',
+    'SUBJECT_LABELS',
+    
+    # Goal models (Hedefler)
+    'Goal',
+    'GoalAssignment',
+    'GoalType',
+    'GoalStatus',
+>>>>>>> eski/main
 ]

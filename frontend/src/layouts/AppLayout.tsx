@@ -16,7 +16,11 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
+<<<<<<< HEAD
   const { sidebarOpen, sidebarCollapsed } = useUIStore();
+=======
+  const { sidebarOpen, sidebarCollapsed, setSidebarOpen } = useUIStore();
+>>>>>>> eski/main
 
   return (
     <div className="min-h-screen bg-background">
@@ -27,8 +31,12 @@ export function AppLayout({ children }: AppLayoutProps) {
       <div
         className={cn(
           'min-h-screen transition-all duration-300 ease-in-out',
+<<<<<<< HEAD
           sidebarCollapsed ? 'lg:pl-20' : 'lg:pl-64',
           !sidebarOpen && 'lg:pl-0'
+=======
+          sidebarCollapsed ? 'lg:pl-20' : 'lg:pl-64'
+>>>>>>> eski/main
         )}
       >
         {/* Header */}
@@ -61,7 +69,11 @@ export function AppLayout({ children }: AppLayoutProps) {
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+<<<<<<< HEAD
           onClick={() => useUIStore.getState().setSidebarOpen(false)}
+=======
+          onClick={() => setSidebarOpen(false)}
+>>>>>>> eski/main
         />
       )}
     </div>
