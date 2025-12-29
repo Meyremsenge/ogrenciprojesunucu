@@ -19720,5 +19720,93 @@
     "details": {
       "source": "C:\\Users\\alpeg\\Desktop\\ÖğrenciSistemi\\app\\modules\\ai\\prompts\\templates\\motivation.yaml"
     }
+  },
+  {
+    "prompt_name": "answer_evaluation",
+    "version": "1.0.0",
+    "change_type": "created",
+    "changed_by": "migration",
+    "changed_at": "2025-12-29T17:50:14.731752",
+    "previous_version": null,
+    "details": {
+      "source": "c:\\Users\\alpeg\\Desktop\\ÖğrenciSistemi\\app\\modules\\ai\\prompts\\templates\\evaluation.yaml"
+    }
+  },
+  {
+    "prompt_name": "topic_explanation",
+    "version": "1.0.0",
+    "change_type": "created",
+    "changed_by": "migration",
+    "changed_at": "2025-12-29T17:50:14.793055",
+    "previous_version": null,
+    "details": {
+      "source": "c:\\Users\\alpeg\\Desktop\\ÖğrenciSistemi\\app\\modules\\ai\\prompts\\templates\\explanation.yaml"
+    }
+  },
+  {
+    "prompt_name": "question_hint",
+    "version": "1.0.0",
+    "change_type": "created",
+    "changed_by": "migration",
+    "changed_at": "2025-12-29T17:50:14.885865",
+    "previous_version": null,
+    "details": {
+      "source": "c:\\Users\\alpeg\\Desktop\\ÖğrenciSistemi\\app\\modules\\ai\\prompts\\templates\\hint.yaml"
+    }
+  },
+  {
+    "prompt_name": "motivation_message",
+    "version": "1.0.0",
+    "change_type": "created",
+    "changed_by": "migration",
+    "changed_at": "2025-12-29T17:50:14.959850",
+    "previous_version": null,
+    "details": {
+      "source": "c:\\Users\\alpeg\\Desktop\\ÖğrenciSistemi\\app\\modules\\ai\\prompts\\templates\\motivation.yaml"
+    }
+  },
+  {
+    "prompt_name": "answer_evaluation",
+    "version": "1.0.0",
+    "change_type": "created",
+    "changed_by": "migration",
+    "changed_at": "2025-12-29T17:50:20.212079",
+    "previous_version": null,
+    "details": {
+      "source": "c:\\Users\\alpeg\\Desktop\\ÖğrenciSistemi\\app\\modules\\ai\\prompts\\templates\\evaluation.yaml"
+    }
+  },
+  {
+    "prompt_name": "topic_explanation",
+    "version": "1.0.0",
+    "change_type": "created",
+    "changed_by": "migration",
+    "changed_at": "2025-12-29T17:50:20.288122",
+    "previous_version": null,
+    "details": {
+      "source": "c:\\Users\\alpeg\\Desktop\\ÖğrenciSistemi\\app\\modules\\ai\\prompts\\templates\\explanation.yaml"
+    }
+  },
+  {
+    "prompt_name": "question_hint",
+    "version": "1.0.0",
+    "change_type": "created",
+    "changed_by": "migration",
+    "changed_at": "2025-12-29T17:50:20.363177",
+    "previous_version": null,
+    "details": {
+      "source": "c:\\Users\\alpeg\\Desktop\\ÖğrenciSistemi\\app\\modules\\ai\\prompts\\templates\\hint.yaml"
+    }
+  },
+  {
+    "prompt_name": "motivation_message",
+    "version": "1.0.0",
+    "change_type": "created",
+    "changed_by": "migration",
+    "changed_at": "2025-12-29T17:50:20.439105",
+    "previous_version": null,
+    "details": {
+      "source": "c:\\Users\\alpeg\\Desktop\\ÖğrenciSistemi\\app\\modules\\ai\\prompts\\templates\\motivation.yaml"
+    }
   }
 ]

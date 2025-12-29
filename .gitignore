@@ -120,3 +120,7 @@ static/uploads/
 # Database
 *.db
 *.sqlite3
+
+# Node modules
+node_modules/
+frontend/node_modules/
